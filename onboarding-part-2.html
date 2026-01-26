@@ -39,6 +39,15 @@
                 </h1>
 
                 <div class="w-full max-w-[720px]">
+                    <!-- Pet Selection Dropdown -->
+                    <div class="mb-8">
+                        <label for="pet-select" class="block mb-2 text-lg font-semibold text-gray-700">Select a
+                            Pet:</label>
+                        <select id="pet-select"
+                            class="w-full rounded-2xl border border-[#0A7A0A] bg-white px-6 py-3 text-lg font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0A7A0A]">
+                            <option value="" disabled selected>Select your pet</option>
+                        </select>
+                    </div>
                     <!-- Pet Details Box -->
                     <div class="rounded-2xl border border-[#0A7A0A] bg-white flex items-center gap-4 px-6 py-5 mb-8">
                         <svg class="h-8 w-8 text-gray-500" fill="none" stroke="currentColor" stroke-width="2"
@@ -46,7 +55,7 @@
                             <path d="M4 17c0-2.5 2.5-4.5 8-4.5s8 2 8 4.5v1a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-1Z" />
                             <circle cx="12" cy="8" r="4" />
                         </svg>
-                        <span class="text-lg font-semibold text-gray-500">{Pet Name}’s Details</span>
+                        <span id="pet-details-title" class="text-lg font-semibold text-gray-500">Pet’s Details</span>
                     </div>
 
                     <!-- Grid for Size, Diet, Activity, Treats -->
@@ -130,6 +139,7 @@
             <img src="assets/image 3.png" alt="Puppy" class="h-[45vh] w-full select-none object-cover lg:h-full" />
         </aside>
     </div>
+    <script src="script.js"></script>
 </body>
 
 </html>
