@@ -4,26 +4,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>PawPlan Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Fredoka', Arial, sans-serif;
+        }
+
+        .pawplan-green {
+            background-color: #179800;
+        }
+
+        .pawplan-green-text {
+            color: #179800;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="flex bg-gray-100 min-h-screen">
-        <!-- Left side: Login form, centered both vertically and horizontally -->
-        <div class="w-1/2 flex justify-center min-h-screen">
-            <div class="w-full max-w-md mt-12">
-                <h2 class="text-2xl font-bold mb-4 text-center">Login to Account</h2>
+    <div class="flex min-h-screen">
+        <!-- Left side: Login form -->
+        <div class="w-1/2 flex flex-col justify-center min-h-screen bg-white">
+            <div class="w-full max-w-md mx-auto">
+                <!-- Logo -->
+                <div class="flex items-center mb-8 mt-4">
+                    <span class="text-2xl pawplan-green-text"
+                        style="font-family: 'Fredoka', Arial, sans-serif;">Paw</span><span class="text-2xl text-black"
+                        style="font-family: 'Fredoka', Arial, sans-serif;">Plan</span>
+                </div>
+                <h2 class="text-3xl mb-6 text-black" style="font-family: 'Fredoka', Arial, sans-serif;">Login
+                    to Account</h2>
                 <form id="loginForm" class="space-y-4">
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" id="email" name="email" required
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-grey-500 focus:border-grey-500">
+                    <input type="email" id="email" name="email" required placeholder="Email Address"
+                        class="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 placeholder-gray-400 text-lg">
+                    <input type="password" id="password" name="password" required placeholder="Password"
+                        class="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 placeholder-gray-400 text-lg">
+                    <div class="text-center text-base">
+                        Don't have an account? <a href="#" class="text-blue-600 underline">Create account</a>
+                    </div>
+                    <!-- reCAPTCHA placeholder -->
+                    <div class="flex justify-center my-4">
+                        <div class="bg-gray-100 border border-gray-300 rounded-md p-4 flex items-center"
+                            style="width: 304px; height: 78px;">
+                            <input type="checkbox" class="mr-2 scale-125">
+                            <span class="text-gray-700 mr-4">I'm not a robot</span>
+                            <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA"
+                                class="h-6 w-6">
+                        </div>
                     </div>
                     <button type="submit"
-                        class="w-full py-2 px-4 bg-grey-600 text-white rounded-md hover:bg-grey-700">Login</button>
+                        class="w-full py-3 px-4 pawplan-green text-white text-lg rounded-lg hover:bg-green-700 transition-colors">Continue</button>
                 </form>
+                <div class="mt-6 text-center text-gray-500 text-sm">
+                    Need Help? Contact Customer Service <a href="mailto:pawplan@contact.com"
+                        class="underline">pawplan@contact.com</a>
+                </div>
                 <div id="loginMessage" class="mt-4 text-green-600 text-center"></div>
+            </div>
+            <div class="mt-auto mb-4 text-center text-gray-400 text-xs">
+                All Rights Reserved <span class="pawplan-green-text">PawPlan</span> Care 2026
             </div>
         </div>
         <!-- Right side: Dog image -->
