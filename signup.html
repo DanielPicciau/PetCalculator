@@ -27,38 +27,38 @@
 <body class="min-h-screen bg-white font-poppins">
     <div class="flex min-h-screen flex-col lg:flex-row">
         <!-- Left side: Signup form -->
-        <section class="relative flex w-full bg-white lg:w-1/2">
+        <section class="order-last relative flex w-full bg-white lg:order-first lg:w-1/2">
             <div class="absolute left-10 top-10 text-3xl font-extrabold tracking-tight sm:left-16">
                 <span class="text-black">Paw</span><span class="text-[#0A7A0A]">Plan</span>
             </div>
 
-            <div class="flex w-full flex-col items-center px-10 pb-12 pt-36 sm:px-16">
-                <h1 class="mb-16 text-5xl font-extrabold tracking-tight text-black sm:text-[56px]">
+            <div class="flex w-full flex-col items-center px-6 pb-12 pt-32 sm:px-10 lg:px-16">
+                <h1 class="mb-12 text-4xl font-extrabold tracking-tight text-black sm:mb-16 sm:text-5xl lg:text-[56px]">
                     Create An Account
                 </h1>
 
                 <form class="w-full max-w-[720px]">
-                    <div class="grid grid-cols-2 gap-x-10 gap-y-10">
+                    <div class="grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-10">
                         <input type="text" name="fullName" placeholder="Full Name" autocomplete="name"
-                            class="h-14 w-full rounded-2xl border-2 border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
+                            class="h-14 w-full rounded-2xl border border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
 
                         <input type="email" name="email" placeholder="Email Address" autocomplete="email"
-                            class="h-14 w-full rounded-2xl border-2 border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
+                            class="h-14 w-full rounded-2xl border border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
 
-                        <div class="col-span-2">
+                        <div class="sm:col-span-2">
                             <input type="tel" name="phone" placeholder="Phone Number" autocomplete="tel"
-                                class="h-14 w-full rounded-2xl border-2 border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
+                                class="h-14 w-full rounded-2xl border border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
                         </div>
 
                         <input type="password" name="password" placeholder="Password" autocomplete="new-password"
-                            class="h-14 w-full rounded-2xl border-2 border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
+                            class="h-14 w-full rounded-2xl border border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
 
                         <input type="password" name="passwordConfirmation" placeholder="Password Confirmation"
                             autocomplete="new-password"
-                            class="h-14 w-full rounded-2xl border-2 border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
+                            class="h-14 w-full rounded-2xl border border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
 
                         <!-- reCAPTCHA placeholder (JS handled later) -->
-                        <div class="col-span-2 flex justify-center pt-6">
+                        <div class="sm:col-span-2 flex justify-center pt-6">
                             <div class="flex h-[78px] w-[304px] items-center justify-between rounded border border-gray-300 bg-gray-50 px-3">
                                 <div class="flex items-center gap-3">
                                     <div class="h-7 w-7 rounded border border-gray-400 bg-white"></div>
@@ -75,18 +75,22 @@
                             </div>
                         </div>
 
-                        <div class="col-span-2 pt-6 text-center text-lg text-gray-600">
+                        <div class="sm:col-span-2 pt-6 text-center text-sm text-gray-600">
                             Need Help? Contact Customer Service @pawplan@contact.com
                         </div>
 
-                        <div class="col-span-2 pt-4">
+                        <div class="sm:col-span-2 pt-6 text-center text-sm text-gray-600">
+                            Already have an account? <a href="log-in.html">Login Here</a>
+                        </div>
+
+                        <div class="sm:col-span-2 pt-4">
                             <button type="button"
                                 class="w-full rounded-2xl bg-[#0A7A0A] py-5 text-2xl font-extrabold text-white">
                                 Continue
                             </button>
                         </div>
 
-                        <div class="col-span-2 pt-10 text-center text-xs text-gray-500">
+                        <div class="sm:col-span-2 pt-10 text-center text-xs text-gray-500">
                             All Rights Reserved Paw<span class="text-[#0A7A0A]">Plan</span> Care 2026
                         </div>
                     </div>
@@ -95,9 +99,9 @@
         </section>
 
         <!-- Right side: Dog image -->
-        <aside class="w-full lg:w-1/2">
+        <aside class="order-first w-full lg:order-last lg:w-1/2 lg:min-h-screen">
             <img src="assets/signup.png" alt="Dog"
-                class="h-full w-full select-none object-cover" />
+                class="h-[45vh] w-full select-none object-cover lg:h-full" />
         </aside>
     </div>
 </body>
