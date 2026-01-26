@@ -10,17 +10,20 @@
 
 <body>
     <div class="flex bg-gray-100 min-h-screen">
-        <!-- Left side: Login form -->
-        <div class="w-1/2 flex justify-center">
-            <div class="w-full max-w-md mt-8">
-                <h2 class="text-2xl font-bold mb-4">Login to Account</h2>
-                <form action="#" method="POST" class="space-y-4">
+        <!-- Left side: Login form, centered both vertically and horizontally -->
+        <div class="w-1/2 flex justify-center min-h-screen">
+            <div class="w-full max-w-md mt-12">
+                <h2 class="text-2xl font-bold mb-4 text-center">Login to Account</h2>
+                <form id="loginForm" class="space-y-4">
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                         <input type="email" id="email" name="email" required
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-grey-500 focus:border-grey-500">
                     </div>
+                    <button type="submit"
+                        class="w-full py-2 px-4 bg-grey-600 text-white rounded-md hover:bg-grey-700">Login</button>
                 </form>
+                <div id="loginMessage" class="mt-4 text-green-600 text-center"></div>
             </div>
         </div>
         <!-- Right side: Dog image -->
@@ -28,6 +31,13 @@
             <img src="assets/Dog-Log-In.png" alt="Dog" class="max-w-full max-h-full object-cover rounded-lg shadow-lg">
         </div>
     </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            document.getElementById('loginMessage').textContent = `Logged in as: ${email}`;
+        });
+    </script>
 </body>
 
 </html>
