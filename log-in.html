@@ -4,25 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
-    <div class="login-form-left grid-cols-2 flex items-center justify-center min-h-screen bg-gray-100">
-        <div>
-            <h2 class="text-2xl font-bold mb-4">Login to Account</h2>
-            <form action="#" method="POST" class="space-y-4">
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="email" name="email" required
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                </div>
-
+    <div class="flex bg-gray-100 min-h-screen">
+        <!-- Left side: Login form -->
+        <div class="w-1/2 flex items-center justify-center">
+            <div class="w-full max-w-md">
+                <h2 class="text-2xl font-bold mb-4">Login to Account</h2>
+                <form action="#" method="POST" class="space-y-4">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                </form>
+            </div>
         </div>
-        </form>
-    </div>
-
+        <!-- Right side: Dog image -->
+        <div class="w-1/2 flex items-center justify-center bg-white">
+            <img src="assets/Dog-Log-In.png" alt="Dog" class="max-w-full max-h-full object-cover rounded-lg shadow-lg">
+        </div>
     </div>
 </body>
 
