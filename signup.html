@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        poppins: ["Poppins", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-white font-poppins">
+    <div class="flex min-h-screen flex-col lg:flex-row">
+        <!-- Left side: Signup form -->
+        <section class="relative flex w-full bg-white lg:w-1/2">
+            <div class="absolute left-10 top-10 text-3xl font-extrabold tracking-tight sm:left-16">
+                <span class="text-black">Paw</span><span class="text-[#0A7A0A]">Plan</span>
+            </div>
+
+            <div class="flex w-full flex-col items-center px-10 pb-12 pt-36 sm:px-16">
+                <h1 class="mb-16 text-5xl font-extrabold tracking-tight text-black sm:text-[56px]">
+                    Create An Account
+                </h1>
+
+                <form class="w-full max-w-[720px]">
+                    <div class="grid grid-cols-2 gap-x-10 gap-y-10">
+                        <input type="text" name="fullName" placeholder="Full Name" autocomplete="name"
+                            class="h-14 w-full rounded-2xl border-2 border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
+
+                        <input type="email" name="email" placeholder="Email Address" autocomplete="email"
+                            class="h-14 w-full rounded-2xl border-2 border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
+
+                        <div class="col-span-2">
+                            <input type="tel" name="phone" placeholder="Phone Number" autocomplete="tel"
+                                class="h-14 w-full rounded-2xl border-2 border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
+                        </div>
+
+                        <input type="password" name="password" placeholder="Password" autocomplete="new-password"
+                            class="h-14 w-full rounded-2xl border-2 border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
+
+                        <input type="password" name="passwordConfirmation" placeholder="Password Confirmation"
+                            autocomplete="new-password"
+                            class="h-14 w-full rounded-2xl border-2 border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
+
+                        <!-- reCAPTCHA placeholder (JS handled later) -->
+                        <div class="col-span-2 flex justify-center pt-6">
+                            <div class="flex h-[78px] w-[304px] items-center justify-between rounded border border-gray-300 bg-gray-50 px-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="h-7 w-7 rounded border border-gray-400 bg-white"></div>
+                                    <div class="text-sm font-medium text-gray-700">I'm not a robot</div>
+                                </div>
+                                <div class="flex flex-col items-end">
+                                    <div
+                                        class="mb-1 flex h-9 w-9 items-center justify-center rounded bg-white text-[10px] font-extrabold text-blue-600 shadow-sm">
+                                        re
+                                    </div>
+                                    <div class="text-[10px] leading-none text-gray-500">reCAPTCHA</div>
+                                    <div class="text-[9px] leading-none text-gray-400">Privacy - Terms</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-span-2 pt-6 text-center text-lg text-gray-600">
+                            Need Help? Contact Customer Service @pawplan@contact.com
+                        </div>
+
+                        <div class="col-span-2 pt-4">
+                            <button type="button"
+                                class="w-full rounded-2xl bg-[#0A7A0A] py-5 text-2xl font-extrabold text-white">
+                                Continue
+                            </button>
+                        </div>
+
+                        <div class="col-span-2 pt-10 text-center text-xs text-gray-500">
+                            All Rights Reserved Paw<span class="text-[#0A7A0A]">Plan</span> Care 2026
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Right side: Dog image -->
+        <aside class="w-full lg:w-1/2">
+            <img src="assets/signup.png" alt="Dog"
+                class="h-full w-full select-none object-cover" />
+        </aside>
+    </div>
+</body>
+
+</html>
