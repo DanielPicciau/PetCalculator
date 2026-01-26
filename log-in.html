@@ -2,82 +2,98 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PawPlan Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log In</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        poppins: ["Poppins", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            font-family: 'Fredoka', Arial, sans-serif;
-        }
-
-        .pawplan-green {
-            background-color: #179800;
-        }
-
-        .pawplan-green-text {
-            color: #179800;
+        img {
+            transform: scaleX(-1);
         }
     </style>
 </head>
 
-<body>
-    <div class="flex min-h-screen">
-        <!-- Left side: Login form -->
-        <div class="w-1/2 flex flex-col justify-center min-h-screen bg-white">
-            <div class="w-full max-w-md mx-auto">
-                <!-- Logo -->
-                <div class="flex items-center mb-8 mt-4">
-                    <span class="text-2xl pawplan-green-text"
-                        style="font-family: 'Fredoka', Arial, sans-serif;">Paw</span><span class="text-2xl text-black"
-                        style="font-family: 'Fredoka', Arial, sans-serif;">Plan</span>
-                </div>
-                <h2 class="text-3xl mb-6 text-black" style="font-family: 'Fredoka', Arial, sans-serif;">Login
-                    to Account</h2>
-                <form id="loginForm" class="space-y-4">
-                    <input type="email" id="email" name="email" required placeholder="Email Address"
-                        class="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 placeholder-gray-400 text-lg">
-                    <input type="password" id="password" name="password" required placeholder="Password"
-                        class="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 placeholder-gray-400 text-lg">
-                    <div class="text-center text-base">
-                        Don't have an account? <a href="#" class="text-blue-600 underline">Create account</a>
-                    </div>
-                    <!-- reCAPTCHA placeholder -->
-                    <div class="flex justify-center my-4">
-                        <div class="bg-gray-100 border border-gray-300 rounded-md p-4 flex items-center"
-                            style="width: 304px; height: 78px;">
-                            <input type="checkbox" class="mr-2 scale-125">
-                            <span class="text-gray-700 mr-4">I'm not a robot</span>
-                            <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA"
-                                class="h-6 w-6">
+<body class="min-h-screen bg-white font-poppins">
+    <div class="flex min-h-screen flex-col lg:flex-row">
+        <!-- Left side: Signup form -->
+        <section class="relative flex w-full bg-white lg:w-1/2">
+            <div class="absolute left-10 top-10 text-3xl font-extrabold tracking-tight sm:left-16">
+                <span class="text-black">Paw</span><span class="text-[#0A7A0A]">Plan</span>
+            </div>
+
+            <div class="flex w-full flex-col items-center px-10 pb-12 pt-36 sm:px-16">
+                <h1 class="mb-16 text-5xl font-extrabold tracking-tight text-black sm:text-[56px]">
+                    Login to Account
+                </h1>
+
+                <form class="w-full max-w-[720px]">
+                    <div class="grid grid-cols-1 gap-y-10">
+
+                        <input type="email" name="email" placeholder="Email Address"
+                            class="h-14 w-full rounded-2xl border-2 border-[#747474] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
+                        <br>
+                        <input type="password" name="password" placeholder="Password"
+                            class="h-14 w-full rounded-2xl border-2 border-[#747474] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
+
+                        <!-- reCAPTCHA placeholder (JS handled later) -->
+                        <div class="col-span-2 flex justify-center pt-6">
+                            <div
+                                class="flex h-[78px] w-[304px] items-center justify-between rounded border border-gray-300 bg-gray-50 px-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="h-7 w-7 rounded border border-gray-400 bg-white"></div>
+                                    <div class="text-sm font-medium text-gray-700">I'm not a robot</div>
+                                </div>
+                                <div class="flex flex-col items-end">
+                                    <div
+                                        class="mb-1 flex h-9 w-9 items-center justify-center rounded bg-white text-[10px] font-extrabold text-blue-600 shadow-sm">
+                                        re
+                                    </div>
+                                    <div class="text-[10px] leading-none text-gray-500">reCAPTCHA</div>
+                                    <div class="text-[9px] leading-none text-gray-400">Privacy - Terms</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-span-2 pt-6 text-center text-lg text-gray-600">
+                            Need Help? Contact Customer Service @pawplan@contact.com
+                        </div>
+
+                        <div class="col-span-2 pt-4">
+                            <button type="button"
+                                class="w-full rounded-2xl bg-[#0A7A0A] py-5 text-2xl font-extrabold text-white">
+                                Continue
+                            </button>
+                        </div>
+
+                        <div class="col-span-2 pt-10 text-center text-xs text-gray-500">
+                            All Rights Reserved Paw<span class="text-[#0A7A0A]">Plan</span> Care 2026
                         </div>
                     </div>
-                    <button type="submit"
-                        class="w-full py-3 px-4 pawplan-green text-white text-lg rounded-lg hover:bg-green-700 transition-colors">Continue</button>
                 </form>
-                <div class="mt-6 text-center text-gray-500 text-sm">
-                    Need Help? Contact Customer Service <a href="mailto:pawplan@contact.com"
-                        class="underline">pawplan@contact.com</a>
-                </div>
-                <div id="loginMessage" class="mt-4 text-green-600 text-center"></div>
             </div>
-            <div class="mt-auto mb-4 text-center text-gray-400 text-xs">
-                All Rights Reserved <span class="pawplan-green-text">PawPlan</span> Care 2026
-            </div>
-        </div>
+        </section>
+
         <!-- Right side: Dog image -->
-        <div class="w-1/2 flex items-center justify-center bg-white">
-            <img src="assets/Dog-Log-In.png" alt="Dog" class="max-w-full max-h-full object-cover rounded-lg shadow-lg">
-        </div>
+        <aside class="hidden w-full lg:block lg:w-1/2">
+            <img src="assets/Dog-Log-In.png" alt="Dog" class="h-full w-full select-none object-cover" />
+        </aside>
     </div>
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            document.getElementById('loginMessage').textContent = `Logged in as: ${email}`;
-        });
-    </script>
 </body>
 
 </html>
