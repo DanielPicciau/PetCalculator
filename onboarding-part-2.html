@@ -11,7 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
     <script>
-        tailwind.config = {
+        window.tailwind = window.tailwind || {};
+        window.tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
@@ -22,6 +23,7 @@
         };
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="script.js" defer></script>
 </head>
 
 <body class="min-h-screen bg-white font-poppins">
@@ -59,56 +61,81 @@
                     </div>
 
                     <!-- Grid for Size, Diet, Activity, Treats -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-                        <!-- Pet's Size -->
-                        <div class="rounded-2xl border border-[#0A7A0A] bg-white flex items-center gap-4 px-6 py-5">
+                    <div class="grid grid-cols-1 gap-6 mb-8 sm:grid-cols-2">
+                        <!-- Animal Size -->
+                        <div class="flex items-center gap-4 rounded-2xl border border-[#0A7A0A] bg-white px-6 py-5">
                             <svg class="h-8 w-8 text-gray-500" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24">
+                                viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M6 21V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v14" />
-                                <rect x="6" y="17" width="12" height="4" rx="2" /><text x="12" y="20"
-                                    text-anchor="middle" font-size="8" fill="currentColor">KG</text>
+                                <rect x="6" y="17" width="12" height="4" rx="2" />
                             </svg>
-                            <span class="text-lg font-semibold text-gray-500">Pet’s Size</span>
+                            <div class="flex min-w-0 flex-1 flex-col">
+                                <select id="pet-size-select"
+                                    class="w-full bg-transparent text-lg font-semibold text-gray-500 focus:outline-none disabled:opacity-60">
+                                    <option value="" disabled selected>Pet’s Size</option>
+                                    <option value="Small">Small</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Large">Large</option>
+                                </select>
+                                <div id="pet-size-info" class="mt-1 hidden text-xs font-medium text-gray-500"></div>
+                            </div>
                         </div>
                         <!-- Diet Type -->
-                        <div class="rounded-2xl border border-[#0A7A0A] bg-white flex items-center gap-4 px-6 py-5">
+                        <div class="flex items-center gap-4 rounded-2xl border border-[#0A7A0A] bg-white px-6 py-5">
                             <svg class="h-8 w-8 text-gray-500" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24">
+                                viewBox="0 0 24 24" aria-hidden="true">
                                 <rect x="3" y="7" width="18" height="10" rx="2" />
                                 <path d="M7 7V5a5 5 0 0 1 10 0v2" />
                             </svg>
-                            <span class="text-lg font-semibold text-gray-500">Diet Type</span>
+                            <div class="flex min-w-0 flex-1 flex-col">
+                                <select id="diet-type-select"
+                                    class="w-full bg-transparent text-lg font-semibold text-gray-500 focus:outline-none disabled:opacity-60">
+                                    <option value="" disabled selected>Diet Type</option>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Premium">Premium</option>
+                                </select>
+                                <div id="diet-type-info" class="mt-1 hidden text-xs font-medium text-gray-500"></div>
+                            </div>
                         </div>
                         <!-- Activity Level -->
-                        <div class="rounded-2xl border border-[#0A7A0A] bg-white flex items-center gap-4 px-6 py-5">
+                        <div class="flex items-center gap-4 rounded-2xl border border-[#0A7A0A] bg-white px-6 py-5">
                             <svg class="h-8 w-8 text-gray-500" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24">
+                                viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M12 20v-6" />
                                 <path d="M6 20v-4" />
                                 <path d="M18 20v-2" />
                                 <circle cx="12" cy="10" r="4" />
                             </svg>
-                            <span class="text-lg font-semibold text-gray-500">Activity Level</span>
+                            <div class="flex min-w-0 flex-1 flex-col">
+                                <select id="activity-level-select"
+                                    class="w-full bg-transparent text-lg font-semibold text-gray-500 focus:outline-none disabled:opacity-60">
+                                    <option value="" disabled selected>Activity Level</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Normal">Normal</option>
+                                    <option value="High">High</option>
+                                </select>
+                                <div id="activity-level-info" class="mt-1 hidden text-xs font-medium text-gray-500"></div>
+                            </div>
                         </div>
                         <!-- Treats Toggle -->
                         <div
-                            class="rounded-2xl border border-[#0A7A0A] bg-white flex items-center justify-between px-6 py-5">
+                            class="flex items-center justify-between rounded-2xl border border-[#0A7A0A] bg-white px-6 py-5">
                             <div class="flex items-center gap-4">
                                 <svg class="h-8 w-8 text-gray-500" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
+                                    viewBox="0 0 24 24" aria-hidden="true">
                                     <path d="M21 13.5a2.5 2.5 0 0 1-5 0c0-1.38 2.5-4.5 2.5-4.5s2.5 3.12 2.5 4.5Z" />
                                     <path d="M3 13.5a2.5 2.5 0 0 0 5 0c0-1.38-2.5-4.5-2.5-4.5S3 12.12 3 13.5Z" />
                                 </svg>
                                 <span class="text-lg font-semibold text-gray-500">Treats?</span>
                             </div>
                             <!-- Toggle Switch -->
-                            <label class="inline-flex items-center cursor-pointer">
-                                <input type="checkbox" value="" class="sr-only peer">
+                            <label class="relative inline-flex cursor-pointer items-center">
+                                <input id="treats-toggle" type="checkbox" class="peer sr-only" />
                                 <div
-                                    class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#0A7A0A] rounded-full peer peer-checked:bg-[#0A7A0A] transition-all">
+                                    class="h-6 w-11 rounded-full bg-gray-200 transition-all peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#0A7A0A] peer-checked:bg-[#0A7A0A]">
                                 </div>
                                 <div
-                                    class="absolute ml-[-1.5rem] mt-1 w-4 h-4 bg-white rounded-full shadow peer-checked:translate-x-5 transition-all">
+                                    class="absolute left-1 top-1 h-4 w-4 rounded-full bg-white shadow transition-transform peer-checked:translate-x-5">
                                 </div>
                             </label>
                         </div>
@@ -119,11 +146,9 @@
                     </div>
 
                     <div class="pt-4">
-                        <button type="button"
-                            class="w-full rounded-2xl bg-[#0A7A0A] py-5 text-2xl font-extrabold text-white flex items-center justify-center relative">
-                            Continue / Next Pet
-                            <span
-                                class="absolute right-6 flex items-center justify-center w-12 h-12 bg-[#2D3A4A] rounded-full text-white text-xl font-bold ml-4">D</span>
+                        <button id="continue-next-btn" type="button"
+                            class="relative flex w-full items-center justify-center rounded-2xl bg-[#0A7A0A] py-5 text-2xl font-extrabold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-60">
+                            Continue
                         </button>
                     </div>
 
@@ -135,11 +160,10 @@
         </section>
 
         <!-- Right side: Image -->
-        <aside class="order-first w-full lg:order-last lg:w-1/2 lg:min-h-screen">
-            <img src="assets/image 3.png" alt="Puppy" class="h-[45vh] w-full select-none object-cover lg:h-full" />
-        </aside>
+    <aside class="order-first w-full lg:order-last lg:w-1/2 lg:min-h-screen">
+        <img src="assets/image 3.png" alt="Puppy" class="h-[45vh] w-full select-none object-cover lg:h-full" />
+    </aside>
     </div>
-    <script src="script.js"></script>
 </body>
 
 </html>

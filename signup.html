@@ -11,7 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
     <script>
-        tailwind.config = {
+        window.tailwind = window.tailwind || {};
+        window.tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
@@ -40,7 +41,7 @@
 
                 <form class="w-full max-w-[720px]">
                     <!-- ...existing code... -->
-                    <div class="grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-10">
+                    <div class="grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-3 sm:gap-y-10">
                         <input type="text" name="fullName" placeholder="Full Name" autocomplete="name"
                             class="h-14 w-full rounded-2xl border border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
 
@@ -59,6 +60,9 @@
                             autocomplete="new-password"
                             class="h-14 w-full rounded-2xl border border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
 
+                        <div class="sm:col-span-2 pt-6 text-center text-sm text-gray-600">
+                            Already have an account? <a class="text-blue-500" href="login.html">Login Here</a>
+                        </div>
                         <!-- reCAPTCHA placeholder (JS handled later) -->
                         <div class="sm:col-span-2 flex justify-center pt-6">
                             <div
@@ -78,19 +82,19 @@
                             </div>
                         </div>
 
-                        <div class="sm:col-span-2 pt-6 text-center text-sm text-gray-600">
-                            Need Help? Contact Customer Service @pawplan@contact.com
-                        </div>
 
-                        <div class="sm:col-span-2 pt-6 text-center text-sm text-gray-600">
-                            Already have an account? <a class="text-blue-500" href="login.html">Login Here</a>
-                        </div>
+
+
 
                         <div class="sm:col-span-2 pt-4">
                             <button type="button" id="signup-continue-btn"
                                 class="w-full rounded-2xl bg-[#0A7A0A] py-5 text-2xl font-extrabold text-white">
                                 Continue
                             </button>
+                        </div>
+
+                        <div class="sm:col-span-2 pt-6 text-center text-sm text-gray-600">
+                            Need Help? Contact Customer Service @pawplan@contact.com
                         </div>
 
                         <div class="sm:col-span-2 pt-10 text-center text-xs text-gray-500">

@@ -11,7 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
     <script>
-        tailwind.config = {
+        window.tailwind = window.tailwind || {};
+        window.tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
@@ -22,6 +23,7 @@
         };
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="script.js" defer></script>
     <style>
         img {
             transform: scaleX(-1);
@@ -74,15 +76,15 @@
                             </div>
                         </div>
 
-                        <div class="col-span-2 pt-6 text-center text-lg text-gray-600">
-                            Need Help? Contact Customer Service @pawplan@contact.com
-                        </div>
-
                         <div class="col-span-2 pt-4">
-                            <button type="button"
+                            <button type="button" id="login-continue-btn"
                                 class="w-full rounded-2xl bg-[#0A7A0A] py-5 text-2xl font-extrabold text-white">
                                 Continue
                             </button>
+                        </div>
+
+                        <div class="sm:col-span-2 pt-6 text-center text-sm text-gray-600">
+                            Need Help? Contact Customer Service @pawplan@contact.com
                         </div>
 
                         <div class="col-span-2 pt-10 text-center text-xs text-gray-500">
