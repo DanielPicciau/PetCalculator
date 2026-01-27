@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.setItem('pawplanUser', JSON.stringify(user));
             // New account should start with a clean pet list.
             localStorage.removeItem('pets');
-            window.location.href = 'onboarding.html';
+            window.location.href = 'onboarding-step-1.html';
         });
     }
 });
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
             pets = [];
         }
 
-        const nextPage = Array.isArray(pets) && pets.length > 0 ? 'onboarding-part-2.html' : 'onboarding.html';
+        const nextPage = Array.isArray(pets) && pets.length > 0 ? 'onboarding-step-2.html' : 'onboarding-step-1.html';
         window.location.href = nextPage;
     });
 });
@@ -96,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const petTypes = [
         'Dog',
         'Cat',
+
         'Rabbit',
         'Bird',
         'Hamster',
@@ -154,23 +155,26 @@ document.addEventListener('DOMContentLoaded', function () {
     const createRow = function (pet) {
         const row = document.createElement('div');
         row.dataset.petRow = 'true';
-        row.className = 'grid grid-cols-1 gap-4 sm:grid-cols-2';
+        row.className = 'flex items-center gap-4';
 
         const optionsHtml = buildOptionsHtml(pet.type);
         const safeName = escapeHtml(pet.name);
 
         row.innerHTML = `
-            <label class="flex h-16 w-full items-center gap-4 rounded-2xl border border-[#FF3B30] bg-white px-6 text-left text-lg font-semibold text-gray-500 whitespace-nowrap">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M12 10c-1.32 0-1.983.421-2.931 1.924l-.244.398l-.395.688l-.141.254c-.24.434-.571.753-1.139 1.142l-.55.365c-.94.627-1.432 1.118-1.707 1.955c-.124.338-.196.853-.193 1.28C4.7 19.693 5.898 21 7.5 21l.242-.006c.119-.006.234-.017.354-.034l.248-.043l.132-.028l.291-.073l.162-.045l.57-.17l.763-.243l.455-.136c.53-.15.94-.222 1.283-.222c.344 0 .753.073 1.283.222l.455.136l.764.242l.569.171l.312.084q.145.036.273.062l.248.043c.12.017.235.028.354.034L16.5 21c1.602 0 2.8-1.307 2.8-3c0-.427-.073-.939-.207-1.306c-.236-.724-.677-1.223-1.48-1.83l-.257-.19l-.528-.38c-.642-.47-1.003-.826-1.253-1.278l-.27-.485l-.252-.432C14.042 10.403 13.435 10 12 10m7.78-3h-.03c-1.219.02-2.35 1.066-2.908 2.504c-.69 1.775-.348 3.72 1.075 4.333c.256.109.527.163.801.163c1.231 0 2.38-1.053 2.943-2.504c.686-1.774.34-3.72-1.076-4.332A2.05 2.05 0 0 0 19.781 7zM9.025 3c-.112 0-.185.002-.27.015l-.093.016C7.13 3.237 6.265 5.02 6.554 6.886C6.826 8.611 8.016 10 9.474 10l.187-.005l.084-.01l.092-.016c1.533-.206 2.397-1.989 2.108-3.855C11.675 4.387 10.485 3 9.025 3"/><path d="M14.972 3c-1.459 0-2.647 1.388-2.916 3.113c-.29 1.867.574 3.65 2.174 3.867q.153.02.296.02c1.39 0 2.543-1.265 2.877-2.883l.041-.23c.29-1.867-.574-3.65-2.174-3.867a2 2 0 0 0-.298-.02M4.217 7c-.274 0-.544.054-.797.161c-1.426.615-1.767 2.562-1.078 4.335C2.905 12.947 4.052 14 5.283 14c.274 0 .544-.054.797-.161c1.426-.615 1.767-2.562 1.078-4.335C6.595 8.053 5.448 7 4.217 7"/></g></svg>
-                <select name="petType" class="min-w-0 flex-1 whitespace-nowrap bg-transparent text-lg font-semibold text-gray-600 focus:outline-none">
-                    ${optionsHtml}
-                </select>
-            </label>
-            <label class="flex h-16 w-full items-center gap-4 rounded-2xl border border-[#FF3B30] bg-white px-6 text-left text-lg font-semibold text-gray-500">
-                <img src="dog-collar-svgrepo-com.svg" alt="Collar" class="h-6 w-6 opacity-70" />
-                <input type="text" name="petName" placeholder="Add their name" value="${safeName}"
-                    class="min-w-0 flex-1 bg-transparent text-lg font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
-            </label>
+            <div class="grid flex-grow grid-cols-1 gap-4 sm:grid-cols-2">
+                <label class="flex h-16 w-full items-center gap-4 rounded-2xl border border-[#FF3B30] bg-white px-6 text-left text-lg font-semibold text-gray-500 whitespace-nowrap">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M12 10c-1.32 0-1.983.421-2.931 1.924l-.244.398l-.395.688l-.141.254c-.24.434-.571.753-1.139 1.142l-.55.365c-.94.627-1.432 1.118-1.707 1.955c-.124.338-.196.853-.193 1.28C4.7 19.693 5.898 21 7.5 21l.242-.006c.119-.006.234-.017.354-.034l.248-.043l.132-.028l.291-.073l.162-.045l.57-.17l.763-.243l.455-.136c.53-.15.94-.222 1.283-.222c.344 0 .753.073 1.283.222l.455.136l.764.242l.569.171l.312.084q.145.036.273.062l.248.043c.12.017.235.028.354.034L16.5 21c1.602 0 2.8-1.307 2.8-3c0-.427-.073-.939-.207-1.306c-.236-.724-.677-1.223-1.48-1.83l-.257-.19l-.528-.38c-.642-.47-1.003-.826-1.253-1.278l-.27-.485l-.252-.432C14.042 10.403 13.435 10 12 10m7.78-3h-.03c-1.219.02-2.35 1.066-2.908 2.504c-.69 1.775-.348 3.72 1.075 4.333c.256.109.527.163.801.163c1.231 0 2.38-1.053 2.943-2.504c.686-1.774.34-3.72-1.076-4.332A2.05 2.05 0 0 0 19.781 7zM9.025 3c-.112 0-.185.002-.27.015l-.093.016C7.13 3.237 6.265 5.02 6.554 6.886C6.826 8.611 8.016 10 9.474 10l.187-.005l.084-.01l.092-.016c1.533-.206 2.397-1.989 2.108-3.855C11.675 4.387 10.485 3 9.025 3"/><path d="M14.972 3c-1.459 0-2.647 1.388-2.916 3.113c-.29 1.867.574 3.65 2.174 3.867q.153.02.296.02c1.39 0 2.543-1.265 2.877-2.883l.041-.23c.29-1.867-.574-3.65-2.174-3.867a2 2 0 0 0-.298-.02M4.217 7c-.274 0-.544.054-.797.161c-1.426.615-1.767 2.562-1.078 4.335C2.905 12.947 4.052 14 5.283 14c.274 0 .544-.054.797-.161c1.426-.615 1.767-2.562 1.078-4.335C6.595 8.053 5.448 7 4.217 7"/></g></svg>
+                    <select name="petType" class="min-w-0 flex-1 whitespace-nowrap bg-transparent text-lg font-semibold text-gray-600 focus:outline-none">
+                        ${optionsHtml}
+                    </select>
+                </label>
+                <label class="flex h-16 w-full items-center gap-4 rounded-2xl border border-[#FF3B30] bg-white px-6 text-left text-lg font-semibold text-gray-500">
+                    <img src="dog-collar.svg" alt="Collar" class="h-6 w-6 opacity-70" />
+                    <input type="text" name="petName" placeholder="Add their name" value="${safeName}"
+                        class="min-w-0 flex-1 bg-transparent text-lg font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
+                </label>
+            </div>
+            <button type="button" aria-label="Remove pet" class="remove-pet-row-btn inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-2xl font-extrabold leading-none text-gray-400 hover:bg-gray-100">&times;</button>
         `;
 
         return row;
@@ -246,6 +250,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
     petRowsDiv.addEventListener('input', updateContinueState);
     petRowsDiv.addEventListener('change', updateContinueState);
+    petRowsDiv.addEventListener('click', function (event) {
+        if (event.target.classList.contains('remove-pet-row-btn')) {
+            const rows = collectRowValues();
+            const rowElement = event.target.closest('[data-pet-row="true"]');
+            const allRowElements = Array.from(petRowsDiv.querySelectorAll('[data-pet-row="true"]'));
+            const index = allRowElements.indexOf(rowElement);
+
+            if (index > -1) {
+                rows.splice(index, 1);
+            }
+
+            if (rows.length === 0) {
+                renderRows([{ type: '', name: '' }]);
+            } else {
+                renderRows(rows);
+            }
+        }
+    });
 
     continueBtn.addEventListener('click', function () {
         const result = collectPets({ requireComplete: true });
@@ -257,7 +279,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         savePets(result.pets);
-        window.location.href = 'onboarding-part-2.html';
+        window.location.href = 'onboarding-step-2.html';
     });
 
     pets = normalizePets(pets);
@@ -306,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!Array.isArray(pets) || pets.length === 0) {
         alert('Please add at least one pet first.');
-        window.location.href = 'onboarding.html';
+        window.location.href = 'onboarding-step-1.html';
         return;
     }
 
