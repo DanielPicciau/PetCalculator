@@ -1,3 +1,30 @@
+// Signup page: Validate and continue
+document.addEventListener('DOMContentLoaded', function () {
+    const signupBtn = document.getElementById('signup-continue-btn');
+    if (signupBtn) {
+        signupBtn.addEventListener('click', function () {
+            const form = signupBtn.closest('form');
+            if (!form) return;
+            const fullName = form.querySelector('input[name="fullName"]').value.trim();
+            const email = form.querySelector('input[name="email"]').value.trim();
+            const phone = form.querySelector('input[name="phone"]').value.trim();
+            const password = form.querySelector('input[name="password"]').value;
+            const passwordConfirmation = form.querySelector('input[name="passwordConfirmation"]').value;
+            // Simple validation
+            if (!fullName || !email || !phone || !password || !passwordConfirmation) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            if (password !== passwordConfirmation) {
+                alert('Passwords do not match.');
+                return;
+            }
+            // Optionally, save user data to localStorage or send to backend here
+            // For now, just continue to onboarding
+            window.location.href = 'onboarding.html';
+        });
+    }
+});
 <<<<<<< HEAD
 // Onboarding Part 1: Add pets and save to localStorage
 document.addEventListener('DOMContentLoaded', function () {

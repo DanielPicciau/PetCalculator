@@ -22,6 +22,7 @@
         };
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="script.js"></script>
 </head>
 
 <body class="min-h-screen bg-white font-poppins">
@@ -38,6 +39,7 @@
                 </h1>
 
                 <form class="w-full max-w-[720px]">
+                                        <!-- ...existing code... -->
                     <div class="grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-10">
                         <input type="text" name="fullName" placeholder="Full Name" autocomplete="name"
                             class="h-14 w-full rounded-2xl border border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
@@ -86,6 +88,7 @@
 
                         <div class="sm:col-span-2 pt-4">
                             <button type="button"
+                                id="signup-continue-btn"
                                 class="w-full rounded-2xl bg-[#0A7A0A] py-5 text-2xl font-extrabold text-white">
                                 Continue
                             </button>
