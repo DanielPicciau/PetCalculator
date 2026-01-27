@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
-<<<<<<< HEAD
+//
 // Onboarding Part 1: Add pets and save to localStorage
 document.addEventListener('DOMContentLoaded', function () {
     const petForm = document.getElementById('pet-form');
