@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.setItem('pawplanUser', JSON.stringify(user));
             // New account should start with a clean pet list.
             localStorage.removeItem('pets');
-            window.location.href = 'onboarding-step-1.html';
+            window.location.href = './onboarding-step-1.html';
         });
     }
 });
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!storedUser) {
             alert('No account found. Please sign up first.');
-            window.location.href = 'signup.html';
+            window.location.href = './signup.html';
             return;
         }
 
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
             pets = [];
         }
 
-        const nextPage = Array.isArray(pets) && pets.length > 0 ? 'onboarding-step-2.html' : 'onboarding-step-1.html';
+        const nextPage = Array.isArray(pets) && pets.length > 0 ? './onboarding-step-2.html' : './onboarding-step-1.html';
         window.location.href = nextPage;
     });
 });
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     </select>
                 </label>
                 <label class="flex h-16 w-full items-center gap-4 rounded-2xl border border-[#FF3B30] bg-white px-6 text-left text-lg font-semibold text-gray-500">
-                    <img src="dog-collar.svg" alt="Collar" class="h-6 w-6 opacity-70" />
+                    <img src="../assets/icons/dog-collar.svg" alt="Collar" class="h-6 w-6 opacity-70" />
                     <input type="text" name="petName" placeholder="Add their name" value="${safeName}"
                         class="min-w-0 flex-1 bg-transparent text-lg font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
                 </label>
@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         savePets(result.pets);
-        window.location.href = 'onboarding-step-2.html';
+        window.location.href = './onboarding-step-2.html';
     });
 
     pets = normalizePets(pets);
@@ -304,17 +304,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const isOnboardingPart2 = Boolean(
         petSelect &&
-            petSizeSelect &&
-            dietTypeSelect &&
-            activityLevelSelect &&
-            treatsToggle &&
-            petSizeInfo &&
-            dietTypeInfo &&
-            activityLevelInfo &&
-            continueNextBtn &&
-            saveDetailsBtn &&
-            saveStatus &&
-            continueReason
+        petSizeSelect &&
+        dietTypeSelect &&
+        activityLevelSelect &&
+        treatsToggle &&
+        petSizeInfo &&
+        dietTypeInfo &&
+        activityLevelInfo &&
+        continueNextBtn &&
+        saveDetailsBtn &&
+        saveStatus &&
+        continueReason
     );
     if (!isOnboardingPart2) return;
 
@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!Array.isArray(pets) || pets.length === 0) {
         alert('Please add at least one pet first.');
-        window.location.href = 'onboarding-step-1.html';
+        window.location.href = './onboarding-step-1.html';
         return;
     }
 
