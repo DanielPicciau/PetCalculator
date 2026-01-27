@@ -276,10 +276,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const dietTypeInfo = document.getElementById('diet-type-info');
     const activityLevelInfo = document.getElementById('activity-level-info');
     const continueNextBtn = document.getElementById('continue-next-btn');
+    const saveDetailsBtn = document.getElementById('save-details-btn');
+    const saveStatus = document.getElementById('save-status');
+    const continueReason = document.getElementById('continue-reason');
 
     const isOnboardingPart2 = Boolean(
         petSelect &&
-            petDetailsTitle &&
             petSizeSelect &&
             dietTypeSelect &&
             activityLevelSelect &&
@@ -287,7 +289,10 @@ document.addEventListener('DOMContentLoaded', function () {
             petSizeInfo &&
             dietTypeInfo &&
             activityLevelInfo &&
-            continueNextBtn
+            continueNextBtn &&
+            saveDetailsBtn &&
+            saveStatus &&
+            continueReason
     );
     if (!isOnboardingPart2) return;
 
@@ -381,21 +386,85 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     };
 
-    const isPetComplete = function (pet) {
-        return Boolean(pet && pet.size && pet.diet && pet.activity);
+    const requiredFieldLabels = {
+        size: 'Size',
+        diet: 'Diet Type',
+        activity: 'Activity Level',
+    };
+    const requiredFields = Object.keys(requiredFieldLabels);
+
+    const getPetName = function (pet, index) {
+        if (!pet) return `Pet ${index + 1}`;
+        return pet.name || `Pet ${index + 1}`;
     };
 
-    const updateContinueState = function () {
-        const hasIncompletePet = pets.some(function (pet) {
-            return !isPetComplete(pet);
-        });
+    const getDraftFromInputs = function () {
+        return {
+            size: petSizeSelect.value,
+            diet: dietTypeSelect.value,
+            activity: activityLevelSelect.value,
+            treats: treatsToggle.checked,
+        };
+    };
 
-        continueNextBtn.disabled = hasIncompletePet;
-        continueNextBtn.classList.toggle('bg-[#0A7A0A]', !hasIncompletePet);
-        continueNextBtn.classList.toggle('bg-gray-300', hasIncompletePet);
+    const applyDraftToInputs = function (draft) {
+        const safeDraft = draft || { size: '', diet: '', activity: '', treats: false };
+        petSizeSelect.value = safeDraft.size || '';
+        dietTypeSelect.value = safeDraft.diet || '';
+        activityLevelSelect.value = safeDraft.activity || '';
+        treatsToggle.checked = Boolean(safeDraft.treats);
+    };
+
+    const getMissingFields = function (pet) {
+        if (!pet) return requiredFields;
+        return requiredFields.filter(function (field) {
+            return !pet[field];
+        });
+    };
+
+    const formatMissingFields = function (missingFields) {
+        return missingFields.map(function (field) {
+            return requiredFieldLabels[field];
+        }).join(', ');
+    };
+
+    const setSaveStatus = function (message, tone) {
+        saveStatus.textContent = message || '';
+        saveStatus.classList.remove('text-gray-500', 'text-amber-600', 'text-[#0A7A0A]');
+        if (tone === 'warning') {
+            saveStatus.classList.add('text-amber-600');
+            return;
+        }
+        if (tone === 'success') {
+            saveStatus.classList.add('text-[#0A7A0A]');
+            return;
+        }
+        saveStatus.classList.add('text-gray-500');
+    };
+
+    const setContinueReasonTone = function (tone) {
+        continueReason.classList.remove('text-[#B91C1C]', 'text-[#0A7A0A]');
+        if (tone === 'success') {
+            continueReason.classList.add('text-[#0A7A0A]');
+            return;
+        }
+        continueReason.classList.add('text-[#B91C1C]');
+    };
+
+    const updateContinueReason = function (reasons, options) {
+        const tone = options && options.tone === 'success' ? 'success' : 'error';
+        if (!reasons.length) {
+            continueReason.textContent = '';
+            continueReason.classList.add('hidden');
+            return;
+        }
+        setContinueReasonTone(tone);
+        continueReason.textContent = reasons.join(' ');
+        continueReason.classList.remove('hidden');
     };
 
     const updateDetailsTitle = function (index) {
+        if (!petDetailsTitle) return;
         if (pets[index]) {
             petDetailsTitle.textContent = `${pets[index].name || 'Pet'}’s Details`;
             return;
@@ -404,56 +473,143 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     let currentIndex = -1;
+    let currentDraft = null;
+    let currentDirty = false;
+
+    const updateSaveStatus = function (options) {
+        const savedRecently = Boolean(options && options.savedRecently);
+        if (currentIndex < 0 || !pets[currentIndex]) {
+            saveDetailsBtn.disabled = true;
+            setSaveStatus('', 'neutral');
+            return;
+        }
+
+        saveDetailsBtn.disabled = false;
+        const petName = getPetName(pets[currentIndex], currentIndex);
+
+        if (savedRecently) {
+            setSaveStatus(`Saved details for ${petName}.`, 'success');
+            return;
+        }
+
+        if (currentDirty) {
+            setSaveStatus(`Unsaved changes for ${petName}.`, 'warning');
+            return;
+        }
+
+        setSaveStatus(`Details saved for ${petName}.`, 'neutral');
+    };
+
+    const isPetComplete = function (pet) {
+        return getMissingFields(pet).length === 0;
+    };
+
+    const updateContinueState = function () {
+        const blockedByDirty = currentDirty && currentIndex >= 0;
+        const incompletePets = pets
+            .map(function (pet, index) {
+                return {
+                    pet,
+                    index,
+                    missing: getMissingFields(pet),
+                };
+            })
+            .filter(function (item) {
+                return item.missing.length > 0;
+            });
+
+        const hasIncompletePet = incompletePets.length > 0;
+        const shouldDisable = blockedByDirty || hasIncompletePet;
+
+        continueNextBtn.disabled = shouldDisable;
+        continueNextBtn.classList.toggle('bg-[#0A7A0A]', !shouldDisable);
+        continueNextBtn.classList.toggle('bg-gray-300', shouldDisable);
+
+        const reasons = [];
+        if (blockedByDirty && pets[currentIndex]) {
+            const petName = getPetName(pets[currentIndex], currentIndex);
+            reasons.push(`Save details for ${petName} before continuing.`);
+        }
+        if (hasIncompletePet) {
+            const summary = incompletePets
+                .map(function (item) {
+                    const petName = getPetName(item.pet, item.index);
+                    const missingLabels = formatMissingFields(item.missing);
+                    return `${petName} (${missingLabels})`;
+                })
+                .join('; ');
+            reasons.push(`Complete details for: ${summary}.`);
+        }
+        updateContinueReason(reasons);
+    };
 
     const loadDetailsForIndex = function (index) {
         const pet = pets[index];
         if (!pet) {
             currentIndex = -1;
-            petSizeSelect.value = '';
-            dietTypeSelect.value = '';
-            activityLevelSelect.value = '';
-            treatsToggle.checked = false;
+            currentDraft = null;
+            currentDirty = false;
+            applyDraftToInputs({ size: '', diet: '', activity: '', treats: false });
             setDetailsDisabled(true);
             refreshSelectTones();
             refreshInfoTexts();
             updateDetailsTitle(-1);
+            updateSaveStatus();
             updateContinueState();
             return;
         }
 
         currentIndex = index;
-        petSizeSelect.value = pet.size || '';
-        dietTypeSelect.value = pet.diet || '';
-        activityLevelSelect.value = pet.activity || '';
-        treatsToggle.checked = Boolean(pet.treats);
+        currentDraft = {
+            size: pet.size || '',
+            diet: pet.diet || '',
+            activity: pet.activity || '',
+            treats: Boolean(pet.treats),
+        };
+        currentDirty = false;
+        applyDraftToInputs(currentDraft);
         setDetailsDisabled(false);
         refreshSelectTones();
         refreshInfoTexts();
         updateDetailsTitle(index);
+        updateSaveStatus();
+        updateContinueState();
+    };
+
+    const handleDetailInputChange = function () {
+        if (currentIndex < 0 || !pets[currentIndex]) return;
+        currentDraft = getDraftFromInputs();
+        currentDirty = true;
+        refreshSelectTones();
+        refreshInfoTexts();
+        updateSaveStatus();
         updateContinueState();
     };
 
     const saveCurrentDetails = function () {
         if (currentIndex < 0 || !pets[currentIndex]) return;
+        currentDraft = getDraftFromInputs();
         const pet = pets[currentIndex];
-        pet.size = petSizeSelect.value;
-        pet.diet = dietTypeSelect.value;
-        pet.activity = activityLevelSelect.value;
-        pet.treats = treatsToggle.checked;
+        pet.size = currentDraft.size;
+        pet.diet = currentDraft.diet;
+        pet.activity = currentDraft.activity;
+        pet.treats = currentDraft.treats;
         savePets();
+        currentDirty = false;
         refreshSelectTones();
         refreshInfoTexts();
+        updateSaveStatus({ savedRecently: true });
         updateContinueState();
     };
 
     pets = normalizePets(pets);
     savePets();
 
-    petSelect.innerHTML = '<option value="" disabled selected>Select your pet</option>';
+    petSelect.innerHTML = '<option value="" disabled selected>Select a pet</option>';
     pets.forEach(function (pet, idx) {
         const opt = document.createElement('option');
         opt.value = String(idx);
-        opt.textContent = pet.name || `Pet ${idx + 1}`;
+        opt.textContent = `${getPetName(pet, idx)}’s Details`;
         petSelect.appendChild(opt);
     });
 
@@ -466,10 +622,19 @@ document.addEventListener('DOMContentLoaded', function () {
         loadDetailsForIndex(nextIndex);
     });
 
-    petSizeSelect.addEventListener('change', saveCurrentDetails);
-    dietTypeSelect.addEventListener('change', saveCurrentDetails);
-    activityLevelSelect.addEventListener('change', saveCurrentDetails);
-    treatsToggle.addEventListener('change', saveCurrentDetails);
+    petSizeSelect.addEventListener('change', handleDetailInputChange);
+    dietTypeSelect.addEventListener('change', handleDetailInputChange);
+    activityLevelSelect.addEventListener('change', handleDetailInputChange);
+    treatsToggle.addEventListener('change', handleDetailInputChange);
+    saveDetailsBtn.addEventListener('click', saveCurrentDetails);
+    continueNextBtn.addEventListener('click', function () {
+        if (continueNextBtn.disabled) {
+            updateContinueState();
+            return;
+        }
+        savePets();
+        updateContinueReason(['All pet details saved. Ready to continue.'], { tone: 'success' });
+    });
 
     if (pets.length === 1) {
         petSelect.value = '0';
