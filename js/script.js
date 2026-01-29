@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             const user = { fullName, email, phone, password };
             localStorage.setItem('pawplanUser', JSON.stringify(user));
+            localStorage.setItem('pawplanAuth', 'true');
             // New account should start with a clean pet list.
             localStorage.removeItem('pets');
             window.location.href = './onboarding-step-1.html';
@@ -71,6 +72,8 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Incorrect password.');
             return;
         }
+
+        localStorage.setItem('pawplanAuth', 'true');
 
         let pets = [];
         try {
@@ -666,4 +669,363 @@ document.addEventListener('DOMContentLoaded', function () {
 
     petSelect.selectedIndex = 0;
     loadDetailsForIndex(-1);
+});
+
+// Calculator page: render logged-in or logged-out view and calculate estimate
+document.addEventListener('DOMContentLoaded', function () {
+    const calculatorPage = document.getElementById('calculator-page');
+    if (!calculatorPage) return;
+
+    const authView = document.getElementById('auth-view');
+    const guestView = document.getElementById('guest-view');
+    const authLink = document.getElementById('auth-link');
+
+    let user = null;
+    try {
+        const rawUser = localStorage.getItem('pawplanUser');
+        user = rawUser ? JSON.parse(rawUser) : null;
+    } catch (e) {
+        user = null;
+    }
+
+    const storedAuth = localStorage.getItem('pawplanAuth');
+    const isLoggedIn = storedAuth === 'true' || (storedAuth === null && Boolean(user));
+
+    let pets = [];
+    try {
+        const rawPets = localStorage.getItem('pets');
+        pets = rawPets ? JSON.parse(rawPets) : [];
+    } catch (e) {
+        pets = [];
+    }
+
+    const normalizePets = function (rawPets) {
+        if (!Array.isArray(rawPets)) return [];
+        return rawPets.map(function (pet) {
+            return {
+                type: typeof pet.type === 'string' ? pet.type : '',
+                name: typeof pet.name === 'string' ? pet.name : '',
+                size: typeof pet.size === 'string' ? pet.size : '',
+                diet: typeof pet.diet === 'string' ? pet.diet : '',
+                activity: typeof pet.activity === 'string' ? pet.activity : '',
+                treats: Boolean(pet.treats),
+            };
+        });
+    };
+
+    pets = normalizePets(pets);
+
+    const getFirstName = function (fullName) {
+        if (typeof fullName !== 'string') return 'there';
+        const parts = fullName.trim().split(/\s+/).filter(Boolean);
+        return parts.length ? parts[0] : 'there';
+    };
+
+    const setAuthHeader = function () {
+        if (!authLink) return;
+        if (isLoggedIn) {
+            const firstName = getFirstName(user && user.fullName);
+            authLink.innerHTML = `Hi ${firstName}, <button type=\"button\" id=\"logout-btn\">Logout</button>`;
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function () {
+                    localStorage.setItem('pawplanAuth', 'false');
+                    window.location.reload();
+                });
+            }
+            return;
+        }
+        authLink.innerHTML = '<a href=\"login.html\">Login</a>';
+    };
+
+    setAuthHeader();
+
+    const showAuthView = Boolean(isLoggedIn && pets.length);
+    if (authView) authView.hidden = !showAuthView;
+    if (guestView) guestView.hidden = showAuthView;
+
+    const baseCalories = {
+        Small: { Low: 200, Normal: 250, High: 400 },
+        Medium: { Low: 600, Normal: 800, High: 1200 },
+        Large: { Low: 1200, Normal: 1500, High: 2500 },
+    };
+
+    const dietCosts = {
+        Standard: 0.002,
+        Premium: 0.005,
+    };
+
+    const formatCurrency = function (value) {
+        if (!Number.isFinite(value)) return '£0.00';
+        return new Intl.NumberFormat('en-GB', {
+            style: 'currency',
+            currency: 'GBP',
+        }).format(value);
+    };
+
+    const getQuantityValue = function (section) {
+        const valueEl = section ? section.querySelector('[data-quantity-value]') : null;
+        const rawValue = valueEl ? parseInt(valueEl.textContent, 10) : 1;
+        if (!Number.isFinite(rawValue) || rawValue < 1) return 1;
+        return rawValue;
+    };
+
+    const adjustQuantity = function (section, delta) {
+        const valueEl = section ? section.querySelector('[data-quantity-value]') : null;
+        if (!valueEl) return;
+        const current = getQuantityValue(section);
+        const next = Math.max(1, current + delta);
+        valueEl.textContent = String(next);
+    };
+
+    const collectInputs = function (section) {
+        if (!section) return null;
+        const size = section.querySelector('[data-input=\"size\"]')?.value || '';
+        const activity = section.querySelector('[data-input=\"activity\"]')?.value || '';
+        const diet = section.querySelector('[data-input=\"diet\"]')?.value || '';
+        const treatsSelect = section.querySelector('[data-input=\"treats-select\"]');
+        const treatsToggle = section.querySelector('[data-input=\"treats-toggle\"]');
+        let treats = false;
+        if (treatsSelect) {
+            treats = treatsSelect.value === 'yes';
+        }
+        if (treatsToggle) {
+            treats = treatsToggle.checked;
+        }
+        const quantity = getQuantityValue(section);
+        return { size, activity, diet, treats, quantity };
+    };
+
+    const calculatePlan = function (inputs) {
+        if (!inputs) return null;
+        const base = baseCalories[inputs.size] && baseCalories[inputs.size][inputs.activity];
+        const costPerKcal = dietCosts[inputs.diet];
+        if (!base || !costPerKcal) return null;
+        const adjustedDaily = base * (inputs.treats ? 1.1 : 1);
+        const monthlyCost = adjustedDaily * costPerKcal * 30 * inputs.quantity;
+        return {
+            base,
+            dailyCalories: Math.round(adjustedDaily),
+            monthlyCost,
+            costPerKcal,
+            size: inputs.size,
+            activity: inputs.activity,
+            diet: inputs.diet,
+            treats: inputs.treats,
+            quantity: inputs.quantity,
+        };
+    };
+
+    const overlay = document.getElementById('result-overlay');
+    const overlayClose = document.getElementById('overlay-close');
+    const overlaySummary = document.getElementById('overlay-summary');
+    const overlayDaily = document.getElementById('overlay-daily');
+    const overlayDiet = document.getElementById('overlay-diet');
+    const overlayMonthly = document.getElementById('overlay-monthly');
+
+    const showOverlay = function (result) {
+        if (!overlay || !result) return;
+        if (overlaySummary) {
+            const treatsText = result.treats ? 'Includes treats' : 'No treats';
+            overlaySummary.textContent = `${result.size} size, ${result.activity} activity. ${treatsText}.`;
+        }
+        if (overlayDaily) {
+            overlayDaily.textContent = `Daily calories: ${result.dailyCalories} kcal.`;
+        }
+        if (overlayDiet) {
+            overlayDiet.textContent = `Diet: ${result.diet} (£${result.costPerKcal.toFixed(3)} per kcal) | Pets: ${result.quantity}.`;
+        }
+        if (overlayMonthly) {
+            overlayMonthly.textContent = formatCurrency(result.monthlyCost);
+        }
+        overlay.classList.add('is-visible');
+        overlay.setAttribute('aria-hidden', 'false');
+    };
+
+    const hideOverlay = function () {
+        if (!overlay) return;
+        overlay.classList.remove('is-visible');
+        overlay.setAttribute('aria-hidden', 'true');
+    };
+
+    if (overlayClose) {
+        overlayClose.addEventListener('click', hideOverlay);
+    }
+
+    if (overlay) {
+        overlay.addEventListener('click', function (event) {
+            if (event.target === overlay) {
+                hideOverlay();
+            }
+        });
+    }
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            hideOverlay();
+        }
+    });
+
+    const handleQuantityClicks = function (section, callback) {
+        if (!section) return;
+        section.addEventListener('click', function (event) {
+            const target = event.target;
+            if (!(target instanceof HTMLElement)) return;
+            if (!target.matches('[data-qty-action]')) return;
+            const delta = target.dataset.qtyAction === 'dec' ? -1 : 1;
+            adjustQuantity(section, delta);
+            if (typeof callback === 'function') {
+                callback();
+            }
+        });
+    };
+
+    const setErrorMessage = function (element, message) {
+        if (!element) return;
+        element.textContent = message || '';
+    };
+
+    const ensureCompleteInputs = function (inputs) {
+        if (!inputs) return false;
+        return Boolean(inputs.size && inputs.activity && inputs.diet);
+    };
+
+    if (showAuthView) {
+        const petSelect = document.getElementById('auth-pet-select');
+        const petSizeSelect = document.getElementById('auth-pet-size');
+        const activitySelect = document.getElementById('auth-activity');
+        const dietSelect = document.getElementById('auth-diet');
+        const treatsSelect = document.getElementById('auth-treats');
+        const authCalcBtn = document.getElementById('auth-calc-btn');
+        const authPreviewText = document.getElementById('auth-preview-text');
+        const authError = document.getElementById('auth-error');
+
+        if (petSelect) {
+            petSelect.innerHTML = '<option value=\"\" disabled selected>Select a pet</option>';
+            pets.forEach(function (pet, index) {
+                const option = document.createElement('option');
+                option.value = String(index);
+                const labelName = pet.name ? pet.name : `Pet ${index + 1}`;
+                const typeSuffix = pet.type ? ` (${pet.type})` : '';
+                option.textContent = `${labelName}${typeSuffix}`;
+                petSelect.appendChild(option);
+            });
+        }
+
+        const setSelectValue = function (select, value) {
+            if (!select) return;
+            const hasOption = Array.from(select.options).some(function (option) {
+                return option.value === value;
+            });
+            select.value = hasOption ? value : '';
+        };
+
+        const updatePreview = function () {
+            if (!authPreviewText) return;
+            const inputs = collectInputs(authView);
+            const result = calculatePlan(inputs);
+            if (!petSelect || !petSelect.value) {
+                authPreviewText.textContent = 'Select a pet to see the estimate.';
+            } else if (!ensureCompleteInputs(inputs)) {
+                authPreviewText.textContent = 'Complete size, activity, and diet to see the estimate.';
+            } else if (result) {
+                authPreviewText.textContent = `Estimated monthly cost: ${formatCurrency(result.monthlyCost)}.`;
+            } else {
+                authPreviewText.textContent = 'Complete the form to see the estimate.';
+            }
+        };
+
+        if (petSelect) {
+            petSelect.addEventListener('change', function () {
+                const index = parseInt(petSelect.value, 10);
+                const pet = Number.isFinite(index) ? pets[index] : null;
+                if (pet) {
+                    setSelectValue(petSizeSelect, pet.size);
+                    setSelectValue(activitySelect, pet.activity);
+                    setSelectValue(dietSelect, pet.diet);
+                    if (treatsSelect) {
+                        if (pet.treats === true) {
+                            treatsSelect.value = 'yes';
+                        } else if (pet.treats === false) {
+                            treatsSelect.value = 'no';
+                        } else {
+                            treatsSelect.value = '';
+                        }
+                    }
+                }
+                updatePreview();
+            });
+        }
+
+        handleQuantityClicks(authView, updatePreview);
+
+        [petSizeSelect, activitySelect, dietSelect, treatsSelect].forEach(function (selectEl) {
+            if (!selectEl) return;
+            selectEl.addEventListener('change', function () {
+                updatePreview();
+                setErrorMessage(authError, '');
+            });
+        });
+
+        if (authCalcBtn) {
+            authCalcBtn.addEventListener('click', function () {
+                const inputs = collectInputs(authView);
+                if (!petSelect || !petSelect.value) {
+                    setErrorMessage(authError, 'Select a pet to continue.');
+                    return;
+                }
+                if (!ensureCompleteInputs(inputs)) {
+                    setErrorMessage(authError, 'Complete size, activity, and diet to calculate.');
+                    return;
+                }
+                const result = calculatePlan(inputs);
+                if (!result) {
+                    setErrorMessage(authError, 'Complete the form to calculate.');
+                    return;
+                }
+                setErrorMessage(authError, '');
+                showOverlay(result);
+            });
+        }
+
+        if (pets.length === 1 && petSelect) {
+            petSelect.value = '0';
+            petSelect.dispatchEvent(new Event('change'));
+        } else {
+            updatePreview();
+        }
+    }
+
+    if (!showAuthView && guestView) {
+        const guestCalcBtn = document.getElementById('guest-calc-btn');
+        const guestError = document.getElementById('guest-error');
+        const guestInputs = guestView.querySelectorAll('select, input[type="checkbox"]');
+
+        handleQuantityClicks(guestView, function () {
+            setErrorMessage(guestError, '');
+        });
+
+        guestInputs.forEach(function (inputEl) {
+            inputEl.addEventListener('change', function () {
+                setErrorMessage(guestError, '');
+            });
+        });
+
+        if (guestCalcBtn) {
+            guestCalcBtn.addEventListener('click', function () {
+                const inputs = collectInputs(guestView);
+                if (!ensureCompleteInputs(inputs)) {
+                    setErrorMessage(guestError, 'Please complete size, activity, and diet to calculate.');
+                    return;
+                }
+                const result = calculatePlan(inputs);
+                if (!result) {
+                    setErrorMessage(guestError, 'Please complete the form to calculate.');
+                    return;
+                }
+                setErrorMessage(guestError, '');
+                showOverlay(result);
+            });
+        }
+    }
 });

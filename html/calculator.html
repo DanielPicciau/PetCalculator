@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PawPlan Calculator</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;800&family=Poppins:wght@400;600;700;800&display=swap"
+        rel="stylesheet" />
+    <script src="../js/script.js" defer></script>
+
+    <style>
+        :root {
+            --orange: #f7941d;
+            --orange-dark: #e57c12;
+            --green: #0a7a0a;
+            --text: #3b3b3b;
+            --muted: #6b6b6b;
+            --panel: #ffffff;
+            --shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            color: var(--text);
+            background: repeating-linear-gradient(135deg, #f3f3f3 0 14px, #efefef 14px 28px);
+            min-height: 100vh;
+        }
+
+        .page-shell {
+            background: var(--panel);
+            min-height: 100vh;
+            box-shadow: var(--shadow);
+        }
+
+        .hero {
+            background-color: var(--orange);
+            background-image: url("../assets/images/calculator_bg.png");
+            background-size: cover;
+            background-position: right center;
+            color: #fff;
+            min-height: 320px;
+        }
+
+        .hero-inner,
+        .form-inner,
+        .footer-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 32px 48px;
+        }
+
+        .hero-inner {
+            padding-top: 28px;
+            padding-bottom: 72px;
+        }
+
+        .hero-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 700;
+        }
+
+        .brand {
+            font-size: 28px;
+            letter-spacing: -0.5px;
+        }
+
+        .brand span:last-child {
+            color: var(--green);
+        }
+
+        .auth-link {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .auth-link a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .auth-link button {
+            background: none;
+            border: none;
+            color: inherit;
+            font: inherit;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .hero-text {
+            margin-top: 62px;
+            max-width: 520px;
+            animation: hero-rise 0.6s ease-out both;
+        }
+
+        .hero-text h1 {
+            font-family: "Merriweather", serif;
+            font-size: clamp(36px, 4.5vw, 58px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-text p {
+            margin-top: 12px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .form-section {
+            background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px 28px;
+        }
+
+        .form-grid > * {
+            animation: fade-slide 0.5s ease-out both;
+        }
+
+        .form-grid > *:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .form-grid > *:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .form-grid > *:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .form-grid > *:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+
+        .form-grid > *:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        .form-grid > *:nth-child(6) {
+            animation-delay: 0.3s;
+        }
+
+        .field {
+            height: 64px;
+            border: 2px solid var(--orange);
+            border-radius: 14px;
+            padding: 0 18px;
+            display: flex;
+            align-items: center;
+            background: #fff;
+            position: relative;
+        }
+
+        .field:focus-within {
+            border-color: #2f80ed;
+            box-shadow: 0 0 0 2px rgba(47, 128, 237, 0.2);
+        }
+
+        .field select,
+        .field input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: #4b4b4b;
+            background: transparent;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        .field select:invalid {
+            color: #7a7a7a;
+        }
+
+        .select-arrow {
+            position: absolute;
+            right: 14px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .select-arrow::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-right: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+            transform: rotate(45deg);
+            margin-top: -2px;
+        }
+
+        .field-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .help-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            max-width: 420px;
+        }
+
+        .quantity-field {
+            justify-content: space-between;
+        }
+
+        .quantity-label {
+            font-size: 16px;
+            font-weight: 700;
+            color: #5c5c5c;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--orange);
+        }
+
+        .quantity-btn {
+            border: none;
+            background: transparent;
+            color: inherit;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .activity-help {
+            margin-left: auto;
+            margin-top: 6px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #8a8a8a;
+            text-align: right;
+        }
+
+        .treats-field {
+            justify-content: space-between;
+        }
+
+        .treats-label {
+            font-size: 16px;
+            font-weight: 700;
+            color: #5c5c5c;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e5e5e5;
+            border-radius: 999px;
+            transition: 0.3s ease;
+        }
+
+        .slider::before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            top: 3px;
+            background-color: white;
+            border-radius: 50%;
+            transition: 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .switch input:checked + .slider {
+            background-color: var(--orange);
+        }
+
+        .switch input:checked + .slider::before {
+            transform: translateX(20px);
+        }
+
+        .form-actions {
+            margin-top: 34px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .calculate-btn {
+            background: var(--orange);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 16px 40px;
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            min-width: 320px;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .calculate-btn:hover {
+            background: var(--orange-dark);
+            transform: translateY(-1px);
+        }
+
+        .add-btn {
+            margin-left: auto;
+            margin-top: 18px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--orange);
+            color: var(--orange);
+            font-size: 22px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .preview-bar {
+            margin: 36px auto 10px;
+            height: 36px;
+            max-width: 520px;
+            background: #d9d9d9;
+            border-radius: 10px;
+        }
+
+        .preview-text {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: #6b6b6b;
+            margin-bottom: 8px;
+        }
+
+        .form-error {
+            margin-top: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #c0392b;
+            text-align: center;
+            min-height: 16px;
+        }
+
+        footer {
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .footer-inner {
+            padding: 18px 48px;
+            text-align: center;
+            font-size: 12px;
+            color: #8a8a8a;
+        }
+
+        .footer-inner span {
+            color: var(--green);
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            z-index: 50;
+        }
+
+        .overlay.is-visible {
+            display: flex;
+            animation: fade-in 0.3s ease-out;
+        }
+
+        .overlay-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 28px 32px;
+            width: min(420px, 100%);
+            box-shadow: var(--shadow);
+            position: relative;
+            animation: pop-in 0.35s ease-out;
+        }
+
+        .overlay-card h2 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        .overlay-card p {
+            font-size: 14px;
+            font-weight: 600;
+            color: #4b4b4b;
+            margin-bottom: 6px;
+        }
+
+        .overlay-highlight {
+            margin-top: 16px;
+            padding: 14px;
+            border-radius: 12px;
+            background: #fff7ec;
+            border: 1px solid #f4c27c;
+        }
+
+        .overlay-highlight strong {
+            display: block;
+            font-size: 18px;
+            color: #1f1f1f;
+            margin-top: 4px;
+        }
+
+        .overlay-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: #f2f2f2;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 18px;
+            font-weight: 700;
+            color: #666;
+            cursor: pointer;
+        }
+
+        @keyframes hero-rise {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fade-slide {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pop-in {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .hero-inner,
+            .form-inner,
+            .footer-inner {
+                padding: 28px 24px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .calculate-btn {
+                min-width: 100%;
+            }
+
+            .preview-bar {
+                width: 100%;
+            }
+
+            .hero {
+                background-position: center;
+                min-height: 260px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-text {
+                margin-top: 40px;
+            }
+
+            .brand {
+                font-size: 22px;
+            }
+
+            .auth-link {
+                font-size: 14px;
+            }
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-shell" id="calculator-page">
+        <header class="hero">
+            <div class="hero-inner">
+                <div class="hero-top">
+                    <div class="brand">
+                        <span>Paw</span><span>Plan</span>
+                    </div>
+                    <div class="auth-link" id="auth-link"></div>
+                </div>
+                <div class="hero-text">
+                    <h1>Plan your pet's food</h1>
+                    <p>Estimate daily calories and monthly cost.</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="form-section">
+            <div class="form-inner">
+                <section id="auth-view" hidden>
+                    <div class="form-grid" data-view="auth">
+                        <div class="field select-field">
+                            <select id="auth-pet-select" required>
+                                <option value="" disabled selected>Select a pet</option>
+                            </select>
+                            <span class="select-arrow"></span>
+                        </div>
+                        <div class="field select-field">
+                            <select id="auth-pet-size" data-input="size" required>
+                                <option value="" disabled selected>Pet Size</option>
+                                <option value="Small">Small</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Large">Large</option>
+                            </select>
+                            <span class="select-arrow"></span>
+                        </div>
+                        <div class="field-stack">
+                            <div class="field quantity-field" data-quantity-scope>
+                                <span class="quantity-label">Quantity</span>
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" type="button" data-qty-action="dec">-</button>
+                                    <span data-quantity-value>1</span>
+                                    <button class="quantity-btn" type="button" data-qty-action="inc">+</button>
+                                </div>
+                            </div>
+                            <p class="help-text">Use this if you have multiple pets with the same needs. For different pets, add another pet.</p>
+                        </div>
+                        <div>
+                            <div class="field select-field">
+                                <select id="auth-activity" data-input="activity" required>
+                                    <option value="" disabled selected>Activity Level</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Normal">Normal</option>
+                                    <option value="High">High</option>
+                                </select>
+                                <span class="select-arrow"></span>
+                            </div>
+                            <div class="activity-help">?</div>
+                        </div>
+                        <div class="field select-field">
+                            <select id="auth-diet" data-input="diet" required>
+                                <option value="" disabled selected>Diet Type</option>
+                                <option value="Standard">Standard</option>
+                                <option value="Premium">Premium</option>
+                            </select>
+                            <span class="select-arrow"></span>
+                        </div>
+                        <div class="field select-field">
+                            <select id="auth-treats" data-input="treats-select" required>
+                                <option value="" disabled selected>Treats?</option>
+                                <option value="no">No Treats</option>
+                                <option value="yes">Includes Treats</option>
+                            </select>
+                            <span class="select-arrow"></span>
+                        </div>
+                    </div>
+
+                    <button class="add-btn" type="button" id="auth-calc-btn" aria-label="Calculate estimate">+</button>
+                    <div class="preview-text" id="auth-preview-text">Select a pet to see the estimate.</div>
+                    <div class="preview-bar" id="auth-preview-bar"></div>
+                    <div class="form-error" id="auth-error"></div>
+                </section>
+
+                <section id="guest-view" hidden>
+                    <div class="form-grid" data-view="guest">
+                        <div class="field select-field">
+                            <select id="guest-pet-type" required>
+                                <option value="" disabled selected>Pet Type</option>
+                                <option value="Dog">Dog</option>
+                                <option value="Cat">Cat</option>
+                                <option value="Rabbit">Rabbit</option>
+                                <option value="Bird">Bird</option>
+                                <option value="Hamster">Hamster</option>
+                                <option value="Guinea Pig">Guinea Pig</option>
+                                <option value="Fish">Fish</option>
+                                <option value="Turtle">Turtle</option>
+                                <option value="Lizard">Lizard</option>
+                                <option value="Snake">Snake</option>
+                                <option value="Ferret">Ferret</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <span class="select-arrow"></span>
+                        </div>
+                        <div class="field select-field">
+                            <select id="guest-pet-size" data-input="size" required>
+                                <option value="" disabled selected>Pet Size</option>
+                                <option value="Small">Small</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Large">Large</option>
+                            </select>
+                            <span class="select-arrow"></span>
+                        </div>
+                        <div class="field-stack">
+                            <div class="field quantity-field" data-quantity-scope>
+                                <span class="quantity-label">Quantity</span>
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" type="button" data-qty-action="dec">-</button>
+                                    <span data-quantity-value>1</span>
+                                    <button class="quantity-btn" type="button" data-qty-action="inc">+</button>
+                                </div>
+                            </div>
+                            <p class="help-text">Use this if you have multiple pets with the same needs. For different pets, add another pet.</p>
+                        </div>
+                        <div>
+                            <div class="field select-field">
+                                <select id="guest-activity" data-input="activity" required>
+                                    <option value="" disabled selected>Activity Level</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Normal">Normal</option>
+                                    <option value="High">High</option>
+                                </select>
+                                <span class="select-arrow"></span>
+                            </div>
+                            <div class="activity-help">?</div>
+                        </div>
+                        <div class="field select-field">
+                            <select id="guest-diet" data-input="diet" required>
+                                <option value="" disabled selected>Diet Type</option>
+                                <option value="Standard">Standard</option>
+                                <option value="Premium">Premium</option>
+                            </select>
+                            <span class="select-arrow"></span>
+                        </div>
+                        <div class="field treats-field">
+                            <span class="treats-label">Treats?</span>
+                            <label class="switch">
+                                <input id="guest-treats" type="checkbox" data-input="treats-toggle" />
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="calculate-btn" type="button" id="guest-calc-btn">CALCULATE</button>
+                    </div>
+                    <div class="form-error" id="guest-error"></div>
+                </section>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-inner">
+                All Rights Reserved Paw<span>Plan</span> Care 2026
+            </div>
+        </footer>
+    </div>
+
+    <div class="overlay" id="result-overlay" aria-hidden="true">
+        <div class="overlay-card" role="dialog" aria-modal="true" aria-labelledby="overlay-title">
+            <button class="overlay-close" type="button" id="overlay-close">x</button>
+            <h2 id="overlay-title">Your PawPlan Estimate</h2>
+            <p id="overlay-summary"></p>
+            <p id="overlay-daily"></p>
+            <p id="overlay-diet"></p>
+            <div class="overlay-highlight">
+                Monthly cost
+                <strong id="overlay-monthly"></strong>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
