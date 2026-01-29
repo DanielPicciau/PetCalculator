@@ -897,6 +897,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const dietSelect = document.getElementById('auth-diet');
         const treatsSelect = document.getElementById('auth-treats');
         const authCalcBtn = document.getElementById('auth-calc-btn');
+        const authPreviewBar = document.getElementById('auth-preview-bar');
         const authPreviewText = document.getElementById('auth-preview-text');
         const authError = document.getElementById('auth-error');
 
@@ -924,6 +925,10 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!authPreviewText) return;
             const inputs = collectInputs(authView);
             const result = calculatePlan(inputs);
+            if (authPreviewBar) {
+                const isReady = Boolean(petSelect && petSelect.value && ensureCompleteInputs(inputs) && result);
+                authPreviewBar.classList.toggle('is-actionable', isReady);
+            }
             if (!petSelect || !petSelect.value) {
                 authPreviewText.textContent = 'Select a pet to see the estimate.';
             } else if (!ensureCompleteInputs(inputs)) {
@@ -933,6 +938,25 @@ document.addEventListener('DOMContentLoaded', function () {
             } else {
                 authPreviewText.textContent = 'Complete the form to see the estimate.';
             }
+        };
+
+        const runAuthCalculation = function () {
+            const inputs = collectInputs(authView);
+            if (!petSelect || !petSelect.value) {
+                setErrorMessage(authError, 'Select a pet to continue.');
+                return;
+            }
+            if (!ensureCompleteInputs(inputs)) {
+                setErrorMessage(authError, 'Complete size, activity, and diet to calculate.');
+                return;
+            }
+            const result = calculatePlan(inputs);
+            if (!result) {
+                setErrorMessage(authError, 'Complete the form to calculate.');
+                return;
+            }
+            setErrorMessage(authError, '');
+            showOverlay(result);
         };
 
         if (petSelect) {
@@ -968,23 +992,18 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         if (authCalcBtn) {
-            authCalcBtn.addEventListener('click', function () {
-                const inputs = collectInputs(authView);
-                if (!petSelect || !petSelect.value) {
-                    setErrorMessage(authError, 'Select a pet to continue.');
-                    return;
+            authCalcBtn.addEventListener('click', runAuthCalculation);
+        }
+
+        if (authPreviewBar) {
+            authPreviewBar.setAttribute('role', 'button');
+            authPreviewBar.setAttribute('tabindex', '0');
+            authPreviewBar.addEventListener('click', runAuthCalculation);
+            authPreviewBar.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    runAuthCalculation();
                 }
-                if (!ensureCompleteInputs(inputs)) {
-                    setErrorMessage(authError, 'Complete size, activity, and diet to calculate.');
-                    return;
-                }
-                const result = calculatePlan(inputs);
-                if (!result) {
-                    setErrorMessage(authError, 'Complete the form to calculate.');
-                    return;
-                }
-                setErrorMessage(authError, '');
-                showOverlay(result);
             });
         }
 
