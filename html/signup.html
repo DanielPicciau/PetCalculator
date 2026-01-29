@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/app.css" />
 
     <script>
         window.tailwind = window.tailwind || {};
@@ -27,9 +28,10 @@
 </head>
 
 <body class="min-h-screen bg-white font-poppins">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <div class="flex min-h-screen flex-col lg:flex-row">
         <!-- Left side: Signup form -->
-        <section class="order-last relative flex w-full bg-white lg:order-first lg:w-1/2">
+        <section class="order-last relative flex w-full bg-white lg:order-first lg:w-1/2" id="main-content" tabindex="-1">
             <div class="absolute left-10 top-10 text-3xl font-extrabold tracking-tight sm:left-16">
                 <span class="text-black">Paw</span><span class="text-[#0A7A0A]">Plan</span>
             </div>
@@ -42,21 +44,22 @@
                 <form class="w-full max-w-[720px]">
                     <!-- ...existing code... -->
                     <div class="grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-3 sm:gap-y-10">
-                        <input type="text" name="fullName" placeholder="Full Name" autocomplete="name"
+                        <input type="text" name="fullName" placeholder="Full Name" autocomplete="name" aria-label="Full name"
                             class="h-14 w-full rounded-2xl border border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
 
-                        <input type="email" name="email" placeholder="Email Address" autocomplete="email"
+                        <input type="email" name="email" placeholder="Email Address" autocomplete="email" aria-label="Email address"
                             class="h-14 w-full rounded-2xl border border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
 
                         <div class="sm:col-span-2">
-                            <input type="tel" name="phone" placeholder="Phone Number" autocomplete="tel"
+                            <input type="tel" name="phone" placeholder="Phone Number" autocomplete="tel" aria-label="Phone number"
                                 class="h-14 w-full rounded-2xl border border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
                         </div>
 
-                        <input type="password" name="password" placeholder="Password" autocomplete="new-password"
+                        <input type="password" name="password" placeholder="Password" autocomplete="new-password" aria-label="Password"
                             class="h-14 w-full rounded-2xl border border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
 
                         <input type="password" name="passwordConfirmation" placeholder="Password Confirmation"
+                            aria-label="Password confirmation"
                             autocomplete="new-password"
                             class="h-14 w-full rounded-2xl border border-[#F5C400] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
 
@@ -64,9 +67,9 @@
                             Already have an account? <a class="text-blue-500" href="login.html">Login Here</a>
                         </div>
                         <!-- reCAPTCHA placeholder (JS handled later) -->
-                        <div class="sm:col-span-2 flex justify-center pt-6">
+                        <div class="sm:col-span-2 flex justify-center pt-6" aria-hidden="true">
                             <div
-                                class="flex h-[78px] w-[304px] items-center justify-between rounded border border-gray-300 bg-gray-50 px-3">
+                                class="flex h-[78px] w-full max-w-[304px] items-center justify-between rounded border border-gray-300 bg-gray-50 px-3">
                                 <div class="flex items-center gap-3">
                                     <div class="h-7 w-7 rounded border border-gray-400 bg-white"></div>
                                     <div class="text-sm font-medium text-gray-700">I'm not a robot</div>

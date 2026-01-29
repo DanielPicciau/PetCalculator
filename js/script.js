@@ -166,14 +166,14 @@ document.addEventListener('DOMContentLoaded', function () {
         row.innerHTML = `
             <div class="grid flex-grow grid-cols-1 gap-4 sm:grid-cols-2">
                 <label class="flex h-16 w-full items-center gap-4 rounded-2xl border border-[#FF3B30] bg-white px-6 text-left text-lg font-semibold text-gray-500 whitespace-nowrap">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor"><path d="M12 10c-1.32 0-1.983.421-2.931 1.924l-.244.398l-.395.688l-.141.254c-.24.434-.571.753-1.139 1.142l-.55.365c-.94.627-1.432 1.118-1.707 1.955c-.124.338-.196.853-.193 1.28C4.7 19.693 5.898 21 7.5 21l.242-.006c.119-.006.234-.017.354-.034l.248-.043l.132-.028l.291-.073l.162-.045l.57-.17l.763-.243l.455-.136c.53-.15.94-.222 1.283-.222c.344 0 .753.073 1.283.222l.455.136l.764.242l.569.171l.312.084q.145.036.273.062l.248.043c.12.017.235.028.354.034L16.5 21c1.602 0 2.8-1.307 2.8-3c0-.427-.073-.939-.207-1.306c-.236-.724-.677-1.223-1.48-1.83l-.257-.19l-.528-.38c-.642-.47-1.003-.826-1.253-1.278l-.27-.485l-.252-.432C14.042 10.403 13.435 10 12 10m7.78-3h-.03c-1.219.02-2.35 1.066-2.908 2.504c-.69 1.775-.348 3.72 1.075 4.333c.256.109.527.163.801.163c1.231 0 2.38-1.053 2.943-2.504c.686-1.774.34-3.72-1.076-4.332A2.05 2.05 0 0 0 19.781 7zM9.025 3c-.112 0-.185.002-.27.015l-.093.016C7.13 3.237 6.265 5.02 6.554 6.886C6.826 8.611 8.016 10 9.474 10l.187-.005l.084-.01l.092-.016c1.533-.206 2.397-1.989 2.108-3.855C11.675 4.387 10.485 3 9.025 3"/><path d="M14.972 3c-1.459 0-2.647 1.388-2.916 3.113c-.29 1.867.574 3.65 2.174 3.867q.153.02.296.02c1.39 0 2.543-1.265 2.877-2.883l.041-.23c.29-1.867-.574-3.65-2.174-3.867a2 2 0 0 0-.298-.02M4.217 7c-.274 0-.544.054-.797.161c-1.426.615-1.767 2.562-1.078 4.335C2.905 12.947 4.052 14 5.283 14c.274 0 .544-.054.797-.161c1.426-.615 1.767-2.562 1.078-4.335C6.595 8.053 5.448 7 4.217 7"/></g></svg>
-                    <select name="petType" class="min-w-0 flex-1 whitespace-nowrap bg-transparent text-lg font-semibold text-gray-600 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="currentColor"><path d="M12 10c-1.32 0-1.983.421-2.931 1.924l-.244.398l-.395.688l-.141.254c-.24.434-.571.753-1.139 1.142l-.55.365c-.94.627-1.432 1.118-1.707 1.955c-.124.338-.196.853-.193 1.28C4.7 19.693 5.898 21 7.5 21l.242-.006c.119-.006.234-.017.354-.034l.248-.043l.132-.028l.291-.073l.162-.045l.57-.17l.763-.243l.455-.136c.53-.15.94-.222 1.283-.222c.344 0 .753.073 1.283.222l.455.136l.764.242l.569.171l.312.084q.145.036.273.062l.248.043c.12.017.235.028.354.034L16.5 21c1.602 0 2.8-1.307 2.8-3c0-.427-.073-.939-.207-1.306c-.236-.724-.677-1.223-1.48-1.83l-.257-.19l-.528-.38c-.642-.47-1.003-.826-1.253-1.278l-.27-.485l-.252-.432C14.042 10.403 13.435 10 12 10m7.78-3h-.03c-1.219.02-2.35 1.066-2.908 2.504c-.69 1.775-.348 3.72 1.075 4.333c.256.109.527.163.801.163c1.231 0 2.38-1.053 2.943-2.504c.686-1.774.34-3.72-1.076-4.332A2.05 2.05 0 0 0 19.781 7zM9.025 3c-.112 0-.185.002-.27.015l-.093.016C7.13 3.237 6.265 5.02 6.554 6.886C6.826 8.611 8.016 10 9.474 10l.187-.005l.084-.01l.092-.016c1.533-.206 2.397-1.989 2.108-3.855C11.675 4.387 10.485 3 9.025 3"/><path d="M14.972 3c-1.459 0-2.647 1.388-2.916 3.113c-.29 1.867.574 3.65 2.174 3.867q.153.02.296.02c1.39 0 2.543-1.265 2.877-2.883l.041-.23c.29-1.867-.574-3.65-2.174-3.867a2 2 0 0 0-.298-.02M4.217 7c-.274 0-.544.054-.797.161c-1.426.615-1.767 2.562-1.078 4.335C2.905 12.947 4.052 14 5.283 14c.274 0 .544-.054.797-.161c1.426-.615 1.767-2.562 1.078-4.335C6.595 8.053 5.448 7 4.217 7"/></g></svg>
+                    <select name="petType" aria-label="Pet type" class="min-w-0 flex-1 whitespace-nowrap bg-transparent text-lg font-semibold text-gray-600 focus:outline-none">
                         ${optionsHtml}
                     </select>
                 </label>
                 <label class="flex h-16 w-full items-center gap-4 rounded-2xl border border-[#FF3B30] bg-white px-6 text-left text-lg font-semibold text-gray-500">
-                    <img src="../assets/icons/dog-collar.svg" alt="Collar" class="h-6 w-6 opacity-70" />
-                    <input type="text" name="petName" placeholder="Add their name" value="${safeName}"
+                    <img src="../assets/icons/dog-collar.svg" alt="" aria-hidden="true" class="h-6 w-6 opacity-70" />
+                    <input type="text" name="petName" placeholder="Add their name" value="${safeName}" aria-label="Pet name"
                         class="min-w-0 flex-1 bg-transparent text-lg font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
                 </label>
             </div>
@@ -776,6 +776,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const current = getQuantityValue(section);
         const next = Math.max(1, current + delta);
         valueEl.textContent = String(next);
+        const spinButton = section && section.querySelector('[role="spinbutton"]');
+        if (spinButton) {
+            spinButton.setAttribute('aria-valuenow', String(next));
+            spinButton.setAttribute('aria-valuetext', `${next} pet${next === 1 ? '' : 's'}`);
+        }
     };
 
     const collectInputs = function (section) {
@@ -817,14 +822,17 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     const overlay = document.getElementById('result-overlay');
+    const calculatorContainer = document.getElementById('calculator-page');
     const overlayClose = document.getElementById('overlay-close');
     const overlaySummary = document.getElementById('overlay-summary');
     const overlayDaily = document.getElementById('overlay-daily');
     const overlayDiet = document.getElementById('overlay-diet');
     const overlayMonthly = document.getElementById('overlay-monthly');
+    let overlayReturnFocus = null;
 
     const showOverlay = function (result) {
         if (!overlay || !result) return;
+        overlayReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
         if (overlaySummary) {
             const treatsText = result.treats ? 'Includes treats' : 'No treats';
             overlaySummary.textContent = `${result.size} size, ${result.activity} activity. ${treatsText}.`;
@@ -840,12 +848,27 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         overlay.classList.add('is-visible');
         overlay.setAttribute('aria-hidden', 'false');
+        if (calculatorContainer) {
+            calculatorContainer.setAttribute('aria-hidden', 'true');
+        }
+        document.body.style.overflow = 'hidden';
+        if (overlayClose) {
+            overlayClose.focus();
+        }
     };
 
     const hideOverlay = function () {
         if (!overlay) return;
         overlay.classList.remove('is-visible');
         overlay.setAttribute('aria-hidden', 'true');
+        if (calculatorContainer) {
+            calculatorContainer.removeAttribute('aria-hidden');
+        }
+        document.body.style.overflow = '';
+        if (overlayReturnFocus) {
+            overlayReturnFocus.focus();
+            overlayReturnFocus = null;
+        }
     };
 
     if (overlayClose) {
@@ -861,8 +884,22 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     document.addEventListener('keydown', function (event) {
+        if (!overlay || overlay.getAttribute('aria-hidden') === 'true') return;
         if (event.key === 'Escape') {
             hideOverlay();
+            return;
+        }
+        if (event.key !== 'Tab') return;
+        const focusable = overlay.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex=\"-1\"])');
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
         }
     });
 
@@ -878,6 +915,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 callback();
             }
         });
+
+        const spinButton = section.querySelector('[role="spinbutton"]');
+        if (spinButton) {
+            spinButton.addEventListener('keydown', function (event) {
+                if (event.key === 'ArrowUp' || event.key === 'ArrowRight') {
+                    event.preventDefault();
+                    adjustQuantity(section, 1);
+                    if (typeof callback === 'function') {
+                        callback();
+                    }
+                }
+                if (event.key === 'ArrowDown' || event.key === 'ArrowLeft') {
+                    event.preventDefault();
+                    adjustQuantity(section, -1);
+                    if (typeof callback === 'function') {
+                        callback();
+                    }
+                }
+            });
+        }
     };
 
     const setErrorMessage = function (element, message) {
@@ -928,6 +985,8 @@ document.addEventListener('DOMContentLoaded', function () {
             if (authPreviewBar) {
                 const isReady = Boolean(petSelect && petSelect.value && ensureCompleteInputs(inputs) && result);
                 authPreviewBar.classList.toggle('is-actionable', isReady);
+                authPreviewBar.setAttribute('aria-disabled', isReady ? 'false' : 'true');
+                authPreviewBar.tabIndex = isReady ? 0 : -1;
             }
             if (!petSelect || !petSelect.value) {
                 authPreviewText.textContent = 'Select a pet to see the estimate.';
@@ -996,8 +1055,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (authPreviewBar) {
-            authPreviewBar.setAttribute('role', 'button');
-            authPreviewBar.setAttribute('tabindex', '0');
             authPreviewBar.addEventListener('click', runAuthCalculation);
             authPreviewBar.addEventListener('keydown', function (event) {
                 if (event.key === 'Enter' || event.key === ' ') {

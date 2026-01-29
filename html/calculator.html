@@ -11,6 +11,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;800&family=Poppins:wght@400;600;700;800&display=swap"
         rel="stylesheet" />
+    <link rel="stylesheet" href="../css/app.css" />
     <script src="../js/script.js" defer></script>
 
     <style>
@@ -573,6 +574,7 @@
 </head>
 
 <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <div class="page-shell" id="calculator-page">
         <header class="hero">
             <div class="hero-inner">
@@ -580,7 +582,7 @@
                     <div class="brand">
                         <span>Paw</span><span>Plan</span>
                     </div>
-                    <div class="auth-link" id="auth-link"></div>
+                    <div class="auth-link" id="auth-link" aria-live="polite"></div>
                 </div>
                 <div class="hero-text">
                     <h1>Plan your pet's food</h1>
@@ -589,18 +591,18 @@
             </div>
         </header>
 
-        <main class="form-section">
+        <main class="form-section" id="main-content" tabindex="-1">
             <div class="form-inner">
                 <section id="auth-view" hidden>
                     <div class="form-grid" data-view="auth">
                         <div class="field select-field">
-                            <select id="auth-pet-select" required>
+                            <select id="auth-pet-select" required aria-label="Select a pet">
                                 <option value="" disabled selected>Select a pet</option>
                             </select>
                             <span class="select-arrow"></span>
                         </div>
                         <div class="field select-field">
-                            <select id="auth-pet-size" data-input="size" required>
+                            <select id="auth-pet-size" data-input="size" required aria-label="Pet size">
                                 <option value="" disabled selected>Pet Size</option>
                                 <option value="Small">Small</option>
                                 <option value="Medium">Medium</option>
@@ -609,19 +611,19 @@
                             <span class="select-arrow"></span>
                         </div>
                         <div class="field-stack">
-                            <div class="field quantity-field" data-quantity-scope>
+                            <div class="field quantity-field" data-quantity-scope role="spinbutton" tabindex="0" aria-label="Quantity" aria-valuemin="1" aria-valuenow="1" aria-valuetext="1 pet" aria-describedby="auth-quantity-help">
                                 <span class="quantity-label">Quantity</span>
                                 <div class="quantity-controls">
-                                    <button class="quantity-btn" type="button" data-qty-action="dec">-</button>
-                                    <span data-quantity-value>1</span>
-                                    <button class="quantity-btn" type="button" data-qty-action="inc">+</button>
+                                    <button class="quantity-btn" type="button" data-qty-action="dec" aria-label="Decrease quantity">-</button>
+                                    <span data-quantity-value aria-live="polite" aria-atomic="true">1</span>
+                                    <button class="quantity-btn" type="button" data-qty-action="inc" aria-label="Increase quantity">+</button>
                                 </div>
                             </div>
-                            <p class="help-text">Use this if you have multiple pets with the same needs. For different pets, add another pet.</p>
+                            <p class="help-text" id="auth-quantity-help">Use this if you have multiple pets with the same needs. For different pets, add another pet.</p>
                         </div>
                         <div>
                             <div class="field select-field">
-                                <select id="auth-activity" data-input="activity" required>
+                                <select id="auth-activity" data-input="activity" required aria-label="Activity level">
                                     <option value="" disabled selected>Activity Level</option>
                                     <option value="Low">Low</option>
                                     <option value="Normal">Normal</option>
@@ -629,10 +631,10 @@
                                 </select>
                                 <span class="select-arrow"></span>
                             </div>
-                            <div class="activity-help">?</div>
+                            <div class="activity-help" aria-hidden="true">?</div>
                         </div>
                         <div class="field select-field">
-                            <select id="auth-diet" data-input="diet" required>
+                            <select id="auth-diet" data-input="diet" required aria-label="Diet type">
                                 <option value="" disabled selected>Diet Type</option>
                                 <option value="Standard">Standard</option>
                                 <option value="Premium">Premium</option>
@@ -640,7 +642,7 @@
                             <span class="select-arrow"></span>
                         </div>
                         <div class="field select-field">
-                            <select id="auth-treats" data-input="treats-select" required>
+                            <select id="auth-treats" data-input="treats-select" required aria-label="Treats">
                                 <option value="" disabled selected>Treats?</option>
                                 <option value="no">No Treats</option>
                                 <option value="yes">Includes Treats</option>
@@ -650,15 +652,15 @@
                     </div>
 
                     <button class="add-btn" type="button" id="auth-calc-btn" aria-label="Calculate estimate">+</button>
-                    <div class="preview-text" id="auth-preview-text">Select a pet to see the estimate.</div>
-                    <div class="preview-bar" id="auth-preview-bar"></div>
-                    <div class="form-error" id="auth-error"></div>
+                    <div class="preview-text" id="auth-preview-text" role="status" aria-live="polite">Select a pet to see the estimate.</div>
+                    <div class="preview-bar" id="auth-preview-bar" role="button" tabindex="-1" aria-label="Open estimate" aria-disabled="true" aria-describedby="auth-preview-text"></div>
+                    <div class="form-error" id="auth-error" role="alert" aria-live="assertive"></div>
                 </section>
 
                 <section id="guest-view" hidden>
                     <div class="form-grid" data-view="guest">
                         <div class="field select-field">
-                            <select id="guest-pet-type" required>
+                            <select id="guest-pet-type" required aria-label="Pet type">
                                 <option value="" disabled selected>Pet Type</option>
                                 <option value="Dog">Dog</option>
                                 <option value="Cat">Cat</option>
@@ -676,7 +678,7 @@
                             <span class="select-arrow"></span>
                         </div>
                         <div class="field select-field">
-                            <select id="guest-pet-size" data-input="size" required>
+                            <select id="guest-pet-size" data-input="size" required aria-label="Pet size">
                                 <option value="" disabled selected>Pet Size</option>
                                 <option value="Small">Small</option>
                                 <option value="Medium">Medium</option>
@@ -685,19 +687,19 @@
                             <span class="select-arrow"></span>
                         </div>
                         <div class="field-stack">
-                            <div class="field quantity-field" data-quantity-scope>
+                            <div class="field quantity-field" data-quantity-scope role="spinbutton" tabindex="0" aria-label="Quantity" aria-valuemin="1" aria-valuenow="1" aria-valuetext="1 pet" aria-describedby="guest-quantity-help">
                                 <span class="quantity-label">Quantity</span>
                                 <div class="quantity-controls">
-                                    <button class="quantity-btn" type="button" data-qty-action="dec">-</button>
-                                    <span data-quantity-value>1</span>
-                                    <button class="quantity-btn" type="button" data-qty-action="inc">+</button>
+                                    <button class="quantity-btn" type="button" data-qty-action="dec" aria-label="Decrease quantity">-</button>
+                                    <span data-quantity-value aria-live="polite" aria-atomic="true">1</span>
+                                    <button class="quantity-btn" type="button" data-qty-action="inc" aria-label="Increase quantity">+</button>
                                 </div>
                             </div>
-                            <p class="help-text">Use this if you have multiple pets with the same needs. For different pets, add another pet.</p>
+                            <p class="help-text" id="guest-quantity-help">Use this if you have multiple pets with the same needs. For different pets, add another pet.</p>
                         </div>
                         <div>
                             <div class="field select-field">
-                                <select id="guest-activity" data-input="activity" required>
+                                <select id="guest-activity" data-input="activity" required aria-label="Activity level">
                                     <option value="" disabled selected>Activity Level</option>
                                     <option value="Low">Low</option>
                                     <option value="Normal">Normal</option>
@@ -705,10 +707,10 @@
                                 </select>
                                 <span class="select-arrow"></span>
                             </div>
-                            <div class="activity-help">?</div>
+                            <div class="activity-help" aria-hidden="true">?</div>
                         </div>
                         <div class="field select-field">
-                            <select id="guest-diet" data-input="diet" required>
+                            <select id="guest-diet" data-input="diet" required aria-label="Diet type">
                                 <option value="" disabled selected>Diet Type</option>
                                 <option value="Standard">Standard</option>
                                 <option value="Premium">Premium</option>
@@ -716,9 +718,9 @@
                             <span class="select-arrow"></span>
                         </div>
                         <div class="field treats-field">
-                            <span class="treats-label">Treats?</span>
+                            <span class="treats-label" id="guest-treats-label">Treats?</span>
                             <label class="switch">
-                                <input id="guest-treats" type="checkbox" data-input="treats-toggle" />
+                                <input id="guest-treats" type="checkbox" data-input="treats-toggle" aria-labelledby="guest-treats-label" />
                                 <span class="slider"></span>
                             </label>
                         </div>
@@ -727,7 +729,7 @@
                     <div class="form-actions">
                         <button class="calculate-btn" type="button" id="guest-calc-btn">CALCULATE</button>
                     </div>
-                    <div class="form-error" id="guest-error"></div>
+                    <div class="form-error" id="guest-error" role="alert" aria-live="assertive"></div>
                 </section>
             </div>
         </main>
@@ -740,13 +742,13 @@
     </div>
 
     <div class="overlay" id="result-overlay" aria-hidden="true">
-        <div class="overlay-card" role="dialog" aria-modal="true" aria-labelledby="overlay-title">
-            <button class="overlay-close" type="button" id="overlay-close">x</button>
+        <div class="overlay-card" role="dialog" aria-modal="true" aria-labelledby="overlay-title" aria-describedby="overlay-summary overlay-daily overlay-diet overlay-monthly-wrapper">
+            <button class="overlay-close" type="button" id="overlay-close" aria-label="Close dialog">x</button>
             <h2 id="overlay-title">Your PawPlan Estimate</h2>
             <p id="overlay-summary"></p>
             <p id="overlay-daily"></p>
             <p id="overlay-diet"></p>
-            <div class="overlay-highlight">
+            <div class="overlay-highlight" id="overlay-monthly-wrapper">
                 Monthly cost
                 <strong id="overlay-monthly"></strong>
             </div>

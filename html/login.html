@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/app.css" />
 
     <script>
         window.tailwind = window.tailwind || {};
@@ -32,9 +33,10 @@
 </head>
 
 <body class="min-h-screen bg-white font-poppins">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <div class="flex min-h-screen flex-col lg:flex-row">
         <!-- Left side: Signup form -->
-        <section class="relative flex w-full bg-white lg:w-1/2">
+        <section class="relative flex w-full bg-white lg:w-1/2" id="main-content" tabindex="-1">
             <div class="absolute left-10 top-10 text-3xl font-extrabold tracking-tight sm:left-16">
                 <span class="text-black">Paw</span><span class="text-[#0A7A0A]">Plan</span>
             </div>
@@ -47,10 +49,10 @@
                 <form class="w-full max-w-[720px]">
                     <div class="grid grid-cols-1 gap-y-10">
 
-                        <input type="email" name="email" placeholder="Email Address"
+                        <input type="email" name="email" placeholder="Email Address" aria-label="Email address" autocomplete="email"
                             class="h-14 w-full rounded-2xl border-2 border-[#747474] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
                         <br>
-                        <input type="password" name="password" placeholder="Password"
+                        <input type="password" name="password" placeholder="Password" aria-label="Password" autocomplete="current-password"
                             class="h-14 w-full rounded-2xl border-2 border-[#747474] bg-white px-6 text-[15px] font-semibold text-gray-700 placeholder:font-semibold placeholder:text-gray-500 focus:outline-none" />
 
                         <div class="sm:col-span-2 pt-6 text-center text-sm text-gray-600">
@@ -58,9 +60,9 @@
                         </div>
 
                         <!-- reCAPTCHA placeholder (JS handled later) -->
-                        <div class="col-span-2 flex justify-center pt-6">
+                        <div class="col-span-2 flex justify-center pt-6" aria-hidden="true">
                             <div
-                                class="flex h-[78px] w-[304px] items-center justify-between rounded border border-gray-300 bg-gray-50 px-3">
+                                class="flex h-[78px] w-full max-w-[304px] items-center justify-between rounded border border-gray-300 bg-gray-50 px-3">
                                 <div class="flex items-center gap-3">
                                     <div class="h-7 w-7 rounded border border-gray-400 bg-white"></div>
                                     <div class="text-sm font-medium text-gray-700">I'm not a robot</div>

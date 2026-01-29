@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/app.css" />
 
     <script>
         window.tailwind = window.tailwind || {};
@@ -27,9 +28,10 @@
 </head>
 
 <body class="min-h-screen bg-white font-poppins">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <div class="flex min-h-screen flex-col lg:flex-row">
         <!-- Left side: Onboarding -->
-        <section class="order-last relative flex w-full bg-white lg:order-first lg:w-1/2">
+        <section class="order-last relative flex w-full bg-white lg:order-first lg:w-1/2" id="main-content" tabindex="-1">
             <div class="absolute left-10 top-10 text-3xl font-extrabold tracking-tight sm:left-16">
                 <span class="text-black">Paw</span><span class="text-[#0A7A0A]">Plan</span>
             </div>
@@ -45,7 +47,7 @@
 
                         <div class="mt-1 flex items-center justify-end gap-3 text-lg font-semibold text-gray-500">
                             <span>Need to add another pet?</span>
-                            <button id="add-pet-row-btn" type="button" aria-label="Add another pet"
+                            <button id="add-pet-row-btn" type="button" aria-label="Add another pet" aria-controls="pet-rows"
                                 class="inline-flex h-9 w-9 items-center justify-center rounded-full border-2 border-gray-400 text-2xl font-extrabold leading-none text-gray-500 hover:bg-gray-50">
                                 +
                             </button>
